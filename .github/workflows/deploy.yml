@@ -12,7 +12,7 @@ jobs:
     steps:
       # システムアップデート
       - name: Update
-        run: sudo atp update && sudo apt upgrade -y
+        run: sudo apt update && sudo apt upgrade -y
 
       # リポジトリをクローン
       - name: Checkout repository
