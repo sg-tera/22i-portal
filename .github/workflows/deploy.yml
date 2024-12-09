@@ -27,7 +27,6 @@ jobs:
             npx html-minifier-terser "$file" --output "./publish/$(basename $file)" --collapse-whitespace --remove-comments --minify-css --minify-js
           done
 
-
       # `publish`ブランチにデプロイ
       - name: Deploy to publish branch
         run: |
@@ -36,4 +35,4 @@ jobs:
           git checkout -b publish
           git add ./publish
           git commit -m "Deploy to publish branch"
-          git subtree push --prefix publish/ --force origin publish
+          git push origin `git subtree split --prefix publish publish`:publish --force
