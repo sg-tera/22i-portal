@@ -1,35 +1,59 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy
 
 on:
   push:
     branches:
-      - main  # main ブランチが更新されたときにトリガー
+      - main  # mainブランチへのpushがトリガーとなります
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    # リポジトリをチェックアウト
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      # アップデート
+      - name: Update apt-get
+        run: sudo apt-get update && sudo apt upgrade -y
+        
+      # リポジトリをクローン
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    # 必要な依存関係をインストール
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      # Node.jsとnpmのセットアップ
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # 使用するNode.jsのバージョン
 
-    # HTML を1行にまとめる
-    - name: Minify HTML
-      run: |
-        mkdir -p dist
-        npx html-minifier-terser --input-dir ./ --output-dir dist --collapse-whitespace --remove-comments --ignore-path './image'
+      # 依存関係をインストール
+      - name: Install dependencies
+        run: npm install
 
-    # publish ブランチに出力をデプロイ
-    - name: Deploy to publish branch
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: dist
-        publish_branch: publish
+      # esbuildを使ってsrcディレクトリをビルド
+      - name: Build with esbuild
+        run: npx esbuild src/index.js --bundle --minify --outfile=dist/index.js
+
+      # publishブランチにデプロイするための設定
+      - name: Set up Git configuration
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      # publishブランチに切り替え
+      - name: Checkout publish branch
+        uses: actions/checkout@v2
+        with:
+          ref: publish  # publishブランチを指定
+
+      # distディレクトリの内容をpublishブランチにコピー
+      - name: Copy dist files to publish branch
+        run: |
+          rm -rf *  # 現在のpublishブランチのルートを削除
+          cp -r dist/* .  # distフォルダ内のファイルをpublishブランチのルートにコピー
+
+      # 変更をコミットしてpush
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "Deploy to publish branch"
+          git push origin publish
+
