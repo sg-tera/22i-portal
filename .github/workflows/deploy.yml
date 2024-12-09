@@ -10,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # システムアップデート
-      - name: Update
-        run: sudo apt update && sudo apt upgrade -y
-
       # リポジトリをクローン
       - name: Checkout repository
         uses: actions/checkout@v2
