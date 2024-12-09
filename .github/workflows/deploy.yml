@@ -13,7 +13,7 @@ jobs:
       # リポジトリのコードをチェックアウト
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       # 必要なパッケージをインストール（html-minifier-terserなど）
       - name: Install dependencies
         run: |
@@ -22,7 +22,7 @@ jobs:
       # HTMLファイルの圧縮
       - name: Minify HTML files
         run: |
-          npx html-minifier-terser ./src/*.html --output ./publish/
+          npx html-minifier-terser ./src/*.html --output ./dist/
 
       # `publish`ブランチにデプロイ
       - name: Deploy to publish branch
