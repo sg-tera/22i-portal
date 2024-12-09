@@ -12,7 +12,7 @@ jobs:
     steps:
       # システムアップデート
       - name: Update
-        run: sudo apt update && sudo apt upgrade -y
+        run: sudo atp update && sudo apt upgrade -y
 
       # リポジトリをクローン
       - name: Checkout repository
@@ -24,13 +24,17 @@ jobs:
         with:
           node-version: '18'  # 使用するNode.jsのバージョン
 
-      # 依存関係をインストール
+      # srcディレクトリに移動して依存関係をインストール
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd ../src  # srcディレクトリに移動
+          npm install
 
       # esbuildを使ってsrcディレクトリをビルド
       - name: Build with esbuild
-        run: npx esbuild ./src/index.js --bundle --minify --outfile=dist/index.js
+        run: |
+          cd src  # srcディレクトリに移動
+          npx esbuild index.js --bundle --minify --outfile=../dist/index.js
 
       # publishブランチにデプロイするための設定
       - name: Set up Git configuration
@@ -56,4 +60,3 @@ jobs:
           git add .
           git commit -m "Deploy to publish branch"
           git push origin publish
-
