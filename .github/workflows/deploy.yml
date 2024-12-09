@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # main ブランチが更新されたときにトリガー
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # リポジトリをチェックアウト
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 必要な依存関係をインストール
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    # HTML を1行にまとめる
+    - name: Minify HTML
+      run: |
+        mkdir -p dist
+        npx html-minifier-terser --input-dir ./ --output-dir dist --collapse-whitespace --remove-comments
+
+    # CSS を圧縮
+    - name: Minify CSS
+      run: |
+        npx clean-css-cli -o dist/style.css style.css
+
+    # publish ブランチに出力をデプロイ
+    - name: Deploy to publish branch
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: dist
+        publish_branch: publish
