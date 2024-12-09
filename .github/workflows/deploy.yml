@@ -31,7 +31,7 @@ jobs:
       - name: Copy image files
         run: |
           mkdir -p ./publish/image
-          cp -r ./src/image/* ./publish/image/
+          cp -r ./image/* ./publish/image/
 
       # `publish`ブランチにデプロイ
       - name: Deploy to publish branch
