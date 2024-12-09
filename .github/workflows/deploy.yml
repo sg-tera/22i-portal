@@ -41,4 +41,5 @@ jobs:
           git checkout -b publish
           git add ./publish
           git commit -m "Deploy to publish branch"
-          git push origin `git subtree split --prefix publish publish`:publish
+          git pull origin publish --allow-unrelated-histories
+          git push origin `git subtree split --prefix publish publish`:publish --force
