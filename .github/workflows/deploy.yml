@@ -1,58 +1,35 @@
-name: Build and Deploy
+name: Deploy Project
 
 on:
   push:
     branches:
-      - main  # mainブランチへのpushがトリガーとなります
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # リポジトリをクローン
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Node.jsとnpmのセットアップ
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'  # 使用するNode.jsのバージョン
-
-      # srcディレクトリに移動して依存関係をインストール
+      # リポジトリのコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      # 必要なパッケージをインストール（html-minifier-terserなど）
       - name: Install dependencies
         run: |
-          cd src  # srcディレクトリに移動
-          npm install
+          npm install html-minifier-terser
 
-      # esbuildを使ってsrcディレクトリをビルド
-      - name: Build with esbuild
+      # HTMLファイルの圧縮
+      - name: Minify HTML files
         run: |
-          cd src  # srcディレクトリに移動
-          npx esbuild index.js --bundle --minify --outfile=../dist/index.js
+          npx html-minifier-terser ./src/*.html --output ./publish/
 
-      # publishブランチにデプロイするための設定
-      - name: Set up Git configuration
+      # `publish`ブランチにデプロイ
+      - name: Deploy to publish branch
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-      # publishブランチに切り替え
-      - name: Checkout publish branch
-        uses: actions/checkout@v2
-        with:
-          ref: publish  # publishブランチを指定
-
-      # distディレクトリの内容をpublishブランチにコピー
-      - name: Copy dist files to publish branch
-        run: |
-          rm -rf *  # 現在のpublishブランチのルートを削除
-          cp -r dist/* .  # distフォルダ内のファイルをpublishブランチのルートにコピー
-
-      # 変更をコミットしてpush
-      - name: Commit and push changes
-        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git checkout -b publish
           git add .
           git commit -m "Deploy to publish branch"
-          git push origin publish
+          git push --force origin publish
