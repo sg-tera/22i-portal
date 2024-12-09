@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # アップデート
-      - name: Update apt-get
-        run: sudo apt-get update && sudo apt upgrade -y
-        
+      # システムアップデート
+      - name: Update
+        run: sudo apt update && sudo apt upgrade -y
+
       # リポジトリをクローン
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
 
       # esbuildを使ってsrcディレクトリをビルド
       - name: Build with esbuild
-        run: npx esbuild src/index.js --bundle --minify --outfile=dist/index.js
+        run: npx esbuild ./src/index.js --bundle --minify --outfile=dist/index.js
 
       # publishブランチにデプロイするための設定
       - name: Set up Git configuration
