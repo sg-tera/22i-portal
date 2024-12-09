@@ -36,4 +36,4 @@ jobs:
           git checkout -b publish
           git add ./publish
           git commit -m "Deploy to publish branch"
-          git push --force origin publish
+          git subtree push --prefix publish/ --force origin publish
