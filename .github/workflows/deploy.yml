@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p ./publish  # 出力先ディレクトリを作成
           for file in ./src/*.html; do
-            npx html-minifier-terser "$file" --output "./publish/$(basename $file)"
+            npx html-minifier-terser "$file" --output "./publish/$(basename $file)" --collapse-whitespace --remove-comments --minify-css --minify-js
           done
 
 
@@ -34,6 +34,6 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git checkout -b publish
-          git add .
+          git add ./publish
           git commit -m "Deploy to publish branch"
           git push --force origin publish
