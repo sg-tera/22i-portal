@@ -23,8 +23,7 @@ jobs:
       # srcディレクトリに移動して依存関係をインストール
       - name: Install dependencies
         run: |
-          cd ..
-          cd ./src  # srcディレクトリに移動
+          cd src  # srcディレクトリに移動
           npm install
 
       # esbuildを使ってsrcディレクトリをビルド
