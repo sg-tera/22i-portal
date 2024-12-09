@@ -27,6 +27,12 @@ jobs:
             npx html-minifier-terser "$file" --output "./publish/$(basename $file)" --collapse-whitespace --remove-comments --minify-css --minify-js
           done
 
+      # 画像ファイルのコピー
+      - name: Copy image files
+        run: |
+          mkdir -p ./publish/image
+          cp -r ./src/image/* ./publish/image/
+
       # `publish`ブランチにデプロイ
       - name: Deploy to publish branch
         run: |
@@ -35,4 +41,4 @@ jobs:
           git checkout -b publish
           git add ./publish
           git commit -m "Deploy to publish branch"
-          git push origin `git subtree split --prefix publish publish`:publish --force
+          git push origin `git subtree split --prefix publish publish`:publish
