@@ -24,12 +24,7 @@ jobs:
     - name: Minify HTML
       run: |
         mkdir -p dist
-        npx html-minifier-terser --input-dir ./ --output-dir dist --collapse-whitespace --remove-comments
-
-    # CSS を圧縮
-    - name: Minify CSS
-      run: |
-        npx clean-css-cli -o dist/style.css style.css
+        npx html-minifier-terser --input-dir ./ --output-dir dist --collapse-whitespace --remove-comments --ignore-path './image'
 
     # publish ブランチに出力をデプロイ
     - name: Deploy to publish branch
