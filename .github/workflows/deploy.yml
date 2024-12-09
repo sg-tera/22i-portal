@@ -22,7 +22,11 @@ jobs:
       # HTMLファイルの圧縮
       - name: Minify HTML files
         run: |
-          npx html-minifier-terser ./src/*.html --output ./dist/
+          mkdir -p ./publish  # 出力先ディレクトリを作成
+          for file in ./src/*.html; do
+            npx html-minifier-terser "$file" --output "./publish/$(basename $file)"
+          done
+
 
       # `publish`ブランチにデプロイ
       - name: Deploy to publish branch
