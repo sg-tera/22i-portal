@@ -2,9 +2,10 @@
 
 3I Portal
 
-宣伝をする場合のissuesの書き方  
+宣伝をする場合のissuesの書き方(app_examle issuesを参考にしてください)  
 titel: App name  
-comment: URL, 作者名(ない場合はUserName), 説明(任意)
+description: URL, 作者名(ない場合はUserName), 説明(任意)  
+また、"宣伝応募"ラベルを付与しておいてください
 
 ## --- License ---  
 
