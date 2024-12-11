@@ -23,16 +23,8 @@ jobs:
       - name: Minify HTML files
         run: |
           mkdir -p ./publish  # 出力先ディレクトリを作成
-          for file in ./src/*.html; do
+            for file in ./src/*.{html,css}; do
             npx html-minifier-terser "$file" --output "./publish/$(basename $file)" --collapse-whitespace --remove-comments --minify-css --minify-js
-          done
-
-      # CSSファイルの圧縮
-      - name: Minify CSS files
-        run: |
-          mkdir -p ./publish/css  # 出力先ディレクトリを作成
-          for file in ./src/css/*.css; do
-            npx cleancss -o "./publish/css/$(basename $file)" "$file"
           done
 
       # 画像ファイルのコピー
