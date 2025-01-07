@@ -2,6 +2,8 @@
 
 3I Portal
 
+3I NEWSの編集作業を手伝っていただけると助かります。ぜひプルリクを送ってください。
+
 宣伝をする場合のissuesの書き方(app_examle issuesを参考にしてください)  
 titel: App name  
 description: URL, 作者名(ない場合はUserName), 説明(任意)  
