@@ -15,4 +15,4 @@ No redistribution without modification.
 
 Do not reuse photos.
 
-© 2024 sg-TERA
+© 2024-2025 sg-TERA
