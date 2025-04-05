@@ -11,19 +11,33 @@
         table {
             width: 100%;
             text-align: center;
+            border-collapse: collapse;
             border: 2px solid black;
-            border-spacing: 0;
+            /* 外枠太め */
         }
 
         th,
         td {
             border: 1px solid lightslategray;
+            /* 内側細め */
+            padding: 8px 12px;
         }
 
-        th {
+        td:empty {
+            background-color: white;
+            border: none;
+            /* 空白セルは枠なし */
+        }
+
+        .timetable th {
             background-color: #C0FF63;
         }
+
+        .timeschedule th {
+            background-color: #b3b3b3;
+        }
     </style>
+
 </head>
 
 <body>
@@ -38,6 +52,97 @@
             <a href="./advertise.html">創作物宣伝</a>
         </p>
     </div>
+    <table class="timetable">
+        <thead>
+            <tr>
+                <th width="32">時間</th>
+                <th>月</th>
+                <th>火</th>
+                <th>水</th>
+                <th>木</th>
+                <th>金</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <th>社会科目(選択)</th>
+                <th rowspan="2">応用数学</th>
+                <td></td>
+                <th rowspan="2">プログラミング</th>
+                <th rowspan="2">離散数学</th>
+            </tr>
+            <tr>
+                <th>2</th>
+                <th>第二外国語</th>
+                <th>英語(選択)</th>
+            </tr>
+            <tr>
+                <th>3</th>
+                <th rowspan="2">情報ネットワークⅡ</th>
+                <th rowspan="2">体育</th>
+                <th>ﾌﾟﾗｸﾃｨｶﾙｲﾝｸﾞﾘｯｼｭ(岡田)(選択)</th>
+                <th rowspan="2">国語(大教室)</th>
+                <th rowspan="2">アルゴリズム</th>
+            </tr>
+            <tr>
+                <th>4</th>
+            </tr>
+            <tr>
+                <th>5</th>
+                <th rowspan="2">ソフトウェア工学</th>
+                <th rowspan="2">論理設計</th>
+                <th rowspan="2">言語処理</th>
+                <td></td>
+                <th rowspan="4">実験</th>
+            </tr>
+            <tr>
+                <th>6</th>
+            </tr>
+            <tr>
+                <th>7</th>
+                <th rowspan="2">経済(大)・経営(視)(選択)</th>
+            </tr>
+            <tr>
+                <th>8</th>
+                <td></td>
+                <th>オフィスアワー</th>
+            </tr>
+        </thead>
+    </table>
+    <br>
+    <p style="text-align: center;">今年度より授業時間が変更になります。ご注意ください。<br>時間は次の通りです</p>
+    <table class="timeschedule">
+        <thead>
+            <tr>
+                <th></th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th rowspan="3">昼休み</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+            </tr>
+            <tr>
+                <th>90</th>
+                <th colspan="2">850 -> 1020</th>
+                <th colspan="2">1040 -> 1210</th>
+                <th colspan="2">1310 -> 1440</th>
+                <th colspan="2">1450 -> 1620</th>
+            </tr>
+            <tr>
+                <th>50</th>
+                <th>850 -> 940</th>
+                <th>945 -> 1035</th>
+                <th>1040 -> 1130</th>
+                <th>1135 -> 1225</th>
+                <th>1310 -> 1400</th>
+                <td></td>
+                <th>1450 -> 1540</th>
+            </tr>
+        </thead>
+    </table>
 </body>
 
 </html>
