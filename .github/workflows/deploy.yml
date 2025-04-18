@@ -17,13 +17,13 @@ jobs:
       # 必要なパッケージをインストール（html-minifier-terser、clean-css-cliなど）
       - name: Install dependencies
         run: |
-          npm install html-minifier-terser clean-css-cli
+          npm install html-minifier-terser
 
       # HTMLファイルの圧縮
       - name: Minify HTML files
         run: |
           mkdir -p ./publish  # 出力先ディレクトリを作成
-            for file in ./src/*.{html,css}; do
+            for file in ./src/*.html; do
             npx html-minifier-terser "$file" --output "./publish/$(basename $file)" --collapse-whitespace --remove-comments --minify-css --minify-js
           done
 
