@@ -1,8 +1,8 @@
 # '22I-Portal
 
-3I Portal
+4I Portal
 
-3I NEWSの編集作業を手伝っていただけると助かります。ぜひプルリクを送ってください。
+4I NEWSの編集作業を手伝っていただけると助かります。ぜひプルリクを送ってください。
 
 宣伝をする場合のissuesの書き方(app_examle issuesを参考にしてください)  
 titel: App name  
