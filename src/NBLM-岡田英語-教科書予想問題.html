@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>NBLM-岡田英語-教科書予想問題.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p>承知いたしました。提供されたソース（スライド2）に基づき、その内容の翻訳と要約を行ったうえで、テスト問題の予想を行います。テスト形式は内容の正誤問題（3択）が5問、ボキャブラリーの意味選択問題（3択）が3問とのこと、Vocabularyセクションも参考にします。</p>
+<hr>
+<h3 id="%E3%82%BD%E3%83%BC%E3%82%B9%E5%86%85%E5%AE%B9%E3%81%AE%E7%BF%BB%E8%A8%B3%E3%81%A8%E8%A6%81%E7%B4%84">ソース内容の翻訳と要約</h3>
+<p>提供されたソースは、「無題のプレゼンテーション」のスライド2の一部であり、「The Art of Rhetoric」という章からの抜粋が含まれているようです。主な内容は、<strong>説得力のある主張（persuasive argument）</strong> を行うことについてです [i]。</p>
+<p>要点は以下の通りです。</p>
+<ul>
+<li>他者を説得するために <strong>レトリック（rhetoric）</strong> をどのように用いるかについて説明されています [i]。</li>
+<li>人々が話し手やその主張を信頼する<strong>理由</strong>、話し手の<strong>信憑性（credibility）</strong>、聴衆の<strong>感情的な反応（emotional response）</strong>、そして聴衆の <strong>判断（judgment）</strong> を考慮することの重要性が述べられています [i]。</li>
+<li>現代において、メディア、ソーシャルメディア、インフルエンサーを通じた<strong>広告キャンペーン</strong>において、効果的かつ説得力のあるコミュニケーションが非常に重要であると指摘されています [i]。</li>
+<li><strong>アリストテレス（Aristotle）</strong> によるレトリックの分析は、今日の状況においても <strong>関連性がある（relevant today）</strong> と示唆されています [i]。</li>
+<li>アリストテレスは、説得における**鍵となる3つの要素（key traits）**として、<strong>エトス（ethos）</strong>、<strong>パトス（pathos）</strong>、<strong>ロゴス（logos）<strong>を概説しているようです [i]。ソースのNotesセクションによると、これらはそれぞれ</strong>信憑性/性格（credibility/character）</strong>、<strong>感情（emotion）</strong>、<strong>論理/理性（logic/reason）</strong> に対応します [i]。</li>
+</ul>
+<h3 id="%E3%83%86%E3%82%B9%E3%83%88%E5%95%8F%E9%A1%8C%E3%81%AE%E4%BA%88%E6%83%B3">テスト問題の予想</h3>
+<p>提供されたソースの形式（Comprehension QuestionsとVocabularyセクション）を参考に、指定された形式でテスト問題を予想します。</p>
+<h4 id="%E5%86%85%E5%AE%B9%E6%AD%A3%E8%AA%A4%E5%95%8F%E9%A1%8C5%E5%95%8F%E3%83%BB3%E6%8A%9E">内容正誤問題（5問・3択）</h4>
+<p>ソースのComprehension Questionsセクションに基づき、以下の記述がソースの内容と合致するかを問う問題を予想します。選択肢は「合致する」「合致しない」「ソースに記述がない」の3つとします。</p>
+<ol>
+<li>
+<p>アリストテレスが概説する説得の3つの鍵となる要素は、エトス、パトス、ロゴスであり、これらはそれぞれ知性、感情、理性に対応すると、ソースのComprehension Questionsには記述されている。 [i]</p>
+<ul>
+<li>(A) 合致する (B) 合致しない (C) ソースに記述がない</li>
+<li><em>（注：ソースのNotesではEthosは信憑性/性格とされており、Comprehension Questionの「知性」とは異なります。Comprehension Questionの記述そのままが問題文になっています。）</em></li>
+</ul>
+</li>
+<li>
+<p>話し手や書き手が強い信頼性を持つためには、注目すべき功績を持っていることが必要であると、ソースのComprehension Questionsには記述されている。 [i]</p>
+<ul>
+<li>(A) 合致する (B) 合致しない (C) ソースに記述がない</li>
+</ul>
+</li>
+<li>
+<p>アリストテレスによれば、異なる感情状態は異なる種類の主張を受け入れると、ソースのComprehension Questionsには記述されている。 [i]</p>
+<ul>
+<li>(A) 合致する (B) 合致しない (C) ソースに記述がない</li>
+</ul>
+</li>
+<li>
+<p>主張は、その主張を支持する一貫性と証明を目指すだけでなく、簡潔さも目指すべきであると、ソースのComprehension Questionsには記述されている。 [i]</p>
+<ul>
+<li>(A) 合致する (B) 合致しない (C) ソースに記述がない</li>
+</ul>
+</li>
+<li>
+<p>『レトリックの技術』は、主に哲学に焦点を当てているアリストテレスの他の著作とは合わないと、ソースのComprehension Questionsには記述されている。 [i]</p>
+<ul>
+<li>(A) 合致する (B) 合致しない (C) ソースに記述がない</li>
+</ul>
+</li>
+</ol>
+<h4 id="vocabulary%E6%84%8F%E5%91%B3%E9%81%B8%E6%8A%9E%E5%95%8F%E9%A1%8C3%E5%95%8F%E3%83%BB3%E6%8A%9E">Vocabulary意味選択問題（3問・3択）</h4>
+<p>ソースのVocabularyセクションにある問題をそのまま使用して、意味選択問題を予想します。</p>
+<ol>
+<li>
+<p>以下の文における <strong>inciting</strong> に最も近い意味はどれか？ [i]
+&quot;...and <strong>inciting</strong> young people to...&quot;</p>
+<ul>
+<li>(A) inspire (B) persuade (C) frighten</li>
+</ul>
+</li>
+<li>
+<p>以下の文における <strong>processing</strong> に最も近い意味はどれか？ [i]
+&quot;...a <strong>processing</strong> reputation is not necessary...&quot;</p>
+<ul>
+<li>(A) education (B) function (C) status</li>
+</ul>
+</li>
+<li>
+<p>以下の文における <strong>extraneous</strong> に最も近い意味はどれか？ [i]
+&quot;...presenters should eliminate any <strong>extraneous</strong>...&quot;</p>
+<ul>
+<li>(A) highlight (B) remove (C) feature</li>
+</ul>
+</li>
+</ol>
+<p>これらの予想問題は、提供されたソースの内容と形式に基づいて作成しました。実際のテストとは異なる場合があることをご了承ください。</p>
+
+</body>
+</html>
