@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <style>
+        body {
+            font-family: system-ui;
+        }
+
+        .titleber {
+            background-color: #FFA7DD;
+            text-align: center;
+        }
+
+        .titleber a {
+            margin: 0 10px;
+            line-height: 2;
+        }
+
+        h1 {
+            margin-top: 4rem;
+        }
+
+        .content h3,
+        p {
+            text-align: center;
+        }
+
+        .command {
+            font-family: monospace;
+            background-color: #eee;
+            padding: 0.5rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="titleber">
+        <h1>4Iポータル</h1>
+        <p>
+            <a href="./index.html">トップページ</a>
+            <a href="./link.html">リンク集</a>
+            <a href="./time.html">時間割</a>
+            <a href="./ytaki.html">ytakiコーナー</a>
+            <a href="./exam.html">試験関連</a>
+            <a href="./advertise.html">創作物宣伝</a>
+        </p>
+    </div>
+    <div class="content">
+        <h3 style="color:red;">データを消してよいか確認しよう! 不必要なドライブは抜いておこう</h3>
+        <p>必要なもの</p>
+        <p>
+        <ul>
+            <li>Windowsの入ったパソコン</li>
+            <li>ネット</li>
+            <li>USBメモリ(8GB以上)</li>
+        </ul>
+        <p>手順</p>
+        </p>
+        <ol>
+            <li><a href="https://www.microsoft.com/ja-jp/software-download/windows11">Windows
+                    11のダウンロードサイト</a>の「Windows 11 のインストール メディアを作成する」からWindows 11をダウンロードする</li>
+            <li>ダウンロードしたファイルを実行して特に何も変更せずそのままUSBに書き込む</li>
+            <li>パソコンにUSBを挿し、電源ボタンを押してすぐにDel(メーカーによってはF2やF12など)を連打してBIOSに入る</li>
+            <li>"BOOT"メニュー(似た別の名前かも)からUSB deviceの起動優先度を最高にしてExitする</li>
+            <li>少し進めて「インストールするディスクの選択」の画面ですべての領域を削除して1つにまとめ、ディスクのフォーマットを行う</li>
+            <li>「国または地域はこれでよろしいですか?」まで来たら、shift + F10を押してコマンドプロンプトを開く</li>
+            <li>コマンドプロンプトが開いたら、以下のコマンドを入力</li>
+            <p class="command">oobe\BypassNRO.cmd</p>
+            <li>再起動後もう一度セットアップを進め「インターネットに接続しましょう」まで来たら、下の「インターネットに接続していません」をクリック</li>
+            <li>「制限された設定で続行」をクリック</li>
+            <li>そのまま最後まで進める</li>
+            <p>これで完了!!簡単でしょ?</p>
+        </ol>
+        </p>
+    </div>
+</body>
+
+</html>
