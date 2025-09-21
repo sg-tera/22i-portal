@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <title>4Iポータル@技術</title>
+    <style>
+        body {
+            font-family: system-ui;
+        }
+
+        #backToTop {
+            position: fixed;
+            bottom: 4%;
+            right: 3%;
+            padding: 10px 15px;
+            background: #FFA7DD;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        #backToTop:hover {
+            background: #ff85c1;
+        }
+
+        section {
+            text-align: center;
+        }
+
+        .major-links {
+            margin: 0 1rem;
+        }
+
+        table {
+            width: 100%;
+            text-align: center;
+            border: 2px solid black;
+            border-spacing: 0;
+        }
+
+        th,
+        td {
+            border: 1px solid lightslategray;
+        }
+
+        th {
+            background-color: #7ed5f7;
+        }
+
+        ul {
+            text-align: center;
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="./tech.html" id="backToTop">技術トップへ戻る</a>
+
+    <section>
+        <h2>Vimチートシート</h2>
+        <p>Vimの基本的な操作をまとめたチートシートです。vimは<span
+                style="color: chocolate;">ノーマルモード、インサートモード、コマンドモード、ビジュアルモード</span>の4つに分かれます。<br>基本はノーマルモードです。ノーマルモードでは移動などができます。<br>
+            コマンドは大文字と小文字を区別するのに注意
+        </p>
+        <table>
+            <h3>ノーマルモード</h3>
+            <thead>
+                <tr>
+                    <th>コマンド</th>
+                    <th>説明</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><code>Esc</code></td>
+                    <td>ノーマルモードに戻る</td>
+                </tr>
+                <tr>
+                    <td><code>k</code></td>
+                    <td>カーソルを上に移動</td>
+                </tr>
+                <tr>
+                    <td><code>j</code></td>
+                    <td>カーソルを下に移動</td>
+                </tr>
+                <tr>
+                    <td><code>h</code></td>
+                    <td>カーソルを左に移動</td>
+                </tr>
+                <tr>
+                    <td><code>l</code></td>
+                    <td>カーソルを右に移動</td>
+                </tr>
+                <tr>
+                    <td><code>:</code></td>
+                    <td>コマンドモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>i</code></td>
+                    <td>今のカーソル位置でインサートモード</td>
+                </tr>
+                <tr>
+                    <td><code>a</code></td>
+                    <td>今のカーソル位置の一つ右からインサートモード</td>
+                </tr>
+                <tr>
+                    <td><code>o</code></td>
+                    <td>今のカーソル位置の下に新しい行を作ってインサートモード</td>
+                </tr>
+                <tr>
+                    <td><code>O</code></td>
+                    <td>今のカーソル位置の上に新しい行を作ってインサートモード</td>
+                </tr>
+                <tr>
+                    <td><code>x</code></td>
+                    <td>今のカーソル位置の文字を削除</td>
+                </tr>
+                <tr>
+                    <td><code>dd</code></td>
+                    <td>今のカーソル位置の行を削除　2行以上の場合は"数字dd"で数字分行を削除</td>
+                </tr>
+                <tr>
+                    <td><code>u</code></td>
+                    <td>取り消し</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+
+</html>
