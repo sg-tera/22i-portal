@@ -10,16 +10,21 @@
             font-family: system-ui;
         }
 
-        .titleber {
-            background-color: #FFA7DD;
-            text-align: center;
+        #backToTop {
+            position: fixed;
+            bottom: 4%;
+            right: 3%;
+            padding: 10px 15px;
+            background: #FFA7DD;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
-        .titleber a {
-            margin: 0 10px;
-            line-height: 2;
+        #backToTop:hover {
+            background: #ff85c1;
         }
-
 
         .content h3,
         p {
@@ -36,18 +41,7 @@
 </head>
 
 <body>
-    <div class="titleber">
-        <h1>4Iポータル</h1>
-        <p>
-            <a href="./index.html">トップページ</a>
-            <a href="./link.html">リンク集</a>
-            <a href="./time.html">時間割</a>
-            <a href="./ytaki.html">ytakiコーナー</a>
-            <a href="./exam.html">試験関連</a>
-            <a href="./tech.html">技術</a>
-            <a href="./advertise.html">創作物宣伝</a>
-        </p>
-    </div>
+    <a href="./tech.html" id="backToTop">技術トップへ戻る</a>
     <div style="text-align: center;">
         <a href="./osHowto.html">OSスクラップ・アンド・ビル道場</a>
     </div>
