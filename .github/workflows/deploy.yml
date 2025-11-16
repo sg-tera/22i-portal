@@ -81,14 +81,12 @@ jobs:
       - name: Copy changed image files
         if: ${{ steps.changed_images.outputs.files != '' }}
         run: |
-          mkdir -p ./publish/image
+          mkdir -p ./publish
           for file in ${{ steps.changed_images.outputs.files }}; do
             if [ -f "$file" ]; then
               echo "Copying: $file"
-              # ディレクトリ構造を保持してコピー
-              dest_dir="./publish/$(dirname "$file")"
-              mkdir -p "$dest_dir"
-              cp "$file" "$dest_dir/"
+              # ディレクトリ構造を保持しないでコピー
+              cp "$file" "./publish/$(basename "$file")"
             else
               echo "Skip (not found): $file"
             fi
