@@ -16,10 +16,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      # 必要なパッケージをインストール（html-minifier-terser）
+      # 必要なパッケージをインストール（html-minifier-terser、clean-css-cliなど）
       - name: Install dependencies
         run: |
-          npm install html-minifier-terser
+          npm install html-minifier-terser jq
 
       # 変更された HTML ファイルのみを検出
       - name: Get changed HTML files
@@ -42,15 +42,15 @@ jobs:
           echo "Detected HTML files: '$files'"
           echo "files=$files" >> $GITHUB_OUTPUT
 
-      # 変更のあった HTML ファイルのみを圧縮
+      # 変更のあった HTML ファイルのみを圧縮（なければこのステップはスキップ）
       - name: Minify changed HTML files
         if: ${{ steps.changed_files.outputs.files != '' }}
         run: |
-          mkdir -p ./html
+          mkdir -p ./publish
           for file in ${{ steps.changed_files.outputs.files }}; do
             if [ -f "$file" ]; then
               echo "Minifying: $file"
-              npx html-minifier-terser "$file" --output "./html/$(basename "$file")" --collapse-whitespace --remove-comments --minify-css --minify-js
+              npx html-minifier-terser "$file" --output "./publish/$(basename "$file")" --collapse-whitespace --remove-comments --minify-css --minify-js
             else
               echo "Skip (not found): $file"
             fi
@@ -77,15 +77,15 @@ jobs:
           echo "Detected image files: '$files'"
           echo "files=$files" >> $GITHUB_OUTPUT
 
-      # 変更のあった画像ファイルのみをコピー
+      # 変更のあった画像ファイルのみをコピー（なければこのステップはスキップ）
       - name: Copy changed image files
         if: ${{ steps.changed_images.outputs.files != '' }}
         run: |
-          mkdir -p ./image
+          mkdir -p ./publish/image
           for file in ${{ steps.changed_images.outputs.files }}; do
             if [ -f "$file" ]; then
               echo "Copying: $file"
-              cp "$file" "./image/$(basename "$file")"
+              cp "$file" "./publish/image/$(basename "$file")"
             else
               echo "Skip (not found): $file"
             fi
@@ -96,17 +96,8 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git checkout --orphan publish
-          git rm -rf .
-          
-          # html と image ディレクトリを追加
-          [ -d ./html ] && git add ./html || true
-          [ -d ./image ] && git add ./image || true
-          
-          # ファイルがある場合のみコミット
-          if git diff --cached --quiet; then
-            echo "No files to commit"
-          else
-            git commit -m "Deploy to publish branch"
-            git push origin publish --force
-          fi
+          git checkout -b publish
+          git add ./publish
+          git commit -m "Deploy to publish branch"
+          git pull origin publish --allow-unrelated-histories --rebase --autostash
+          git push origin `git subtree split --prefix publish publish`:publish --force
