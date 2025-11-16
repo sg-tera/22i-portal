@@ -10,61 +10,90 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # リポジトリのコードをチェックアウト
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # 必要なパッケージをインストール（html-minifier-terser を使用）
       - name: Install dependencies
         run: |
           npm install html-minifier-terser jq
 
-      # main/src 内の HTML ファイルを列挙
-      - name: Get HTML files
-        id: html_files
+      - name: Get added or modified files (A or M)
+        id: changed_files
         run: |
-          files=$(find src -type f -name '*.html' 2>/dev/null | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
-          echo "Detected HTML files: '$files'"
-          echo "files=$files" >> $GITHUB_OUTPUT
+          BEFORE=${{ github.event.before }}
+          AFTER=${{ github.sha }}
+          echo "Before: $BEFORE"
+          echo "After: $AFTER"
 
-      # HTML を 1 行に圧縮して publish 直下に配置（basename を使いルート直下へ）
-      - name: Minify HTML files into single line
+          # list added or modified HTML files under src/*.html
+          added_or_modified_html=$(git diff --name-status "$BEFORE" "$AFTER" | awk '$1 ~ /^[AM]$/ && $2 ~ /^src\/.*\.html$/ {print $2}' | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
+          # list added or modified files under image/
+          added_or_modified_images=$(git diff --name-status "$BEFORE" "$AFTER" | awk '$1 ~ /^[AM]$/ && $2 ~ /^image\// {print $2}' | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
+
+          echo "Detected HTML files: $added_or_modified_html"
+          echo "Detected image files: $added_or_modified_images"
+
+          echo "html=$added_or_modified_html" >> $GITHUB_OUTPUT
+          echo "images=$added_or_modified_images" >> $GITHUB_OUTPUT
+
+      - name: Minify added/modified HTML files into single line
         run: |
           mkdir -p ./publish
-          for file in ${{ steps.html_files.outputs.files }}; do
-            if [ -f "$file" ]; then
-              out="./publish/$(basename "$file")"
-              echo "Minifying: $file -> $out"
-              # minify して改行を削除（1行にする）
-              npx html-minifier-terser "$file" --collapse-whitespace --remove-comments --minify-css --minify-js | tr -d '\n' > "$out"
-            else
-              echo "Skip (not found): $file"
-            fi
-          done
+          html_list="${{ steps.changed_files.outputs.html }}"
 
-      # main の image ディレクトリを構造そのままコピー
-      - name: Copy image directory (preserve structure)
-        run: |
-          if [ -d image ]; then
-            mkdir -p ./publish
-            cp -a image ./publish/
-            echo "Copied image/ -> publish/image/"
+          if [ -z "$html_list" ]; then
+            echo "No new/modified HTML files to minify."
           else
-            echo "No image directory to copy"
+            for file in $html_list; do
+              if [ -f "$file" ]; then
+                out="./publish/$(basename "$file")"
+                echo "Minifying: $file -> $out"
+                npx html-minifier-terser "$file" --collapse-whitespace --remove-comments --minify-css --minify-js | tr -d '\n' > "$out"
+              else
+                echo "Skip (not found): $file"
+              fi
+            done
           fi
 
-      # `publish` ディレクトリのみを抽出して publish ブランチに強制 push（rebase は行わない）
+      - name: Copy added/modified image files (preserve structure)
+        run: |
+          mkdir -p ./publish
+          img_list="${{ steps.changed_files.outputs.images }}"
+
+          if [ -z "$img_list" ]; then
+            echo "No new/modified image files to copy."
+          else
+            for file in $img_list; do
+              if [ -f "$file" ]; then
+                # ensure target dir exists and copy preserving path
+                mkdir -p "./publish/$(dirname "$file")"
+                cp -a "$file" "./publish/$file"
+                echo "Copied: $file -> ./publish/$file"
+              else
+                echo "Skip (not found): $file"
+              fi
+            done
+          fi
+
       - name: Deploy to publish branch
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # stage & commit（変更が無くてもエラーにならないようにする）
+          # 変更が無ければスキップ
+          if [ -z "$(git status --porcelain ./publish || true)" ]; then
+            echo "No changes in publish/ to deploy. Skipping push."
+            exit 0
+          fi
+
           git add ./publish || true
           git commit -m "Deploy to publish branch" || true
 
-          # publish プレフィックスのみのコミットを作成して publish ブランチへ強制 push
-          SHA=$(git subtree split --prefix publish HEAD)
-          git push origin ${SHA}:publish --force
+          SHA=$(git subtree split --prefix publish HEAD 2>/dev/null || true)
+          if [ -n "$SHA" ]; then
+            git push origin ${SHA}:publish --force
+          else
+            echo "No publish subtree to push."
+          fi
