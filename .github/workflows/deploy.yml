@@ -16,70 +16,55 @@ jobs:
         with:
           fetch-depth: 0
 
-      # 必要なパッケージをインストール（html-minifier-terser、clean-css-cliなど）
+      # 必要なパッケージをインストール（html-minifier-terser を使用）
       - name: Install dependencies
         run: |
           npm install html-minifier-terser jq
 
-      # 変更された HTML ファイルのみを検出
-      - name: Get changed HTML files
-        id: changed_files
+      # main/src 内の HTML ファイルを列挙
+      - name: Get HTML files
+        id: html_files
         run: |
-          # 全ての HTML ファイルを対象にする
-          files=$(git ls-files '*.html')
-
-          # 改行をスペースに変換して出力
-          files=$(echo "$files" | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
-
+          files=$(find src -type f -name '*.html' 2>/dev/null | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
           echo "Detected HTML files: '$files'"
           echo "files=$files" >> $GITHUB_OUTPUT
 
-      # 全ての HTML ファイルを圧縮
-      - name: Minify changed HTML files
+      # HTML を 1 行に圧縮して publish 直下に配置（basename を使いルート直下へ）
+      - name: Minify HTML files into single line
         run: |
           mkdir -p ./publish
-          for file in ${{ steps.changed_files.outputs.files }}; do
+          for file in ${{ steps.html_files.outputs.files }}; do
             if [ -f "$file" ]; then
-              echo "Minifying: $file"
-              npx html-minifier-terser "$file" --output "./publish/$(basename "$file")" --collapse-whitespace --remove-comments --minify-css --minify-js
+              out="./publish/$(basename "$file")"
+              echo "Minifying: $file -> $out"
+              # minify して改行を削除（1行にする）
+              npx html-minifier-terser "$file" --collapse-whitespace --remove-comments --minify-css --minify-js | tr -d '\n' > "$out"
             else
               echo "Skip (not found): $file"
             fi
           done
 
-      # 変更された画像ファイルのみを検出
-      - name: Get changed image files
-        id: changed_images
+      # main の image ディレクトリを構造そのままコピー
+      - name: Copy image directory (preserve structure)
         run: |
-          # 全ての画像ファイルを対象にする
-          files=$(git ls-files 'image/*')
+          if [ -d image ]; then
+            mkdir -p ./publish
+            cp -a image ./publish/
+            echo "Copied image/ -> publish/image/"
+          else
+            echo "No image directory to copy"
+          fi
 
-          # 改行をスペースに変換して出力
-          files=$(echo "$files" | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
-
-          echo "Detected image files: '$files'"
-          echo "files=$files" >> $GITHUB_OUTPUT
-
-      # 全ての画像ファイルをコピー
-      - name: Copy changed image files
-        run: |
-          mkdir -p ./publish/image
-          for file in ${{ steps.changed_images.outputs.files }}; do
-            if [ -f "$file" ]; then
-              echo "Copying: $file"
-              cp "$file" "./publish/image/$(basename "$file")"
-            else
-              echo "Skip (not found): $file"
-            fi
-          done
-
-      # `publish`ブランチにデプロイ
+      # `publish` ディレクトリのみを抽出して publish ブランチに強制 push（rebase は行わない）
       - name: Deploy to publish branch
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git checkout -b publish
-          git add ./publish
-          git commit -m "Deploy to publish branch"
-          git pull origin publish --allow-unrelated-histories --rebase --autostash
-          git push origin `git subtree split --prefix publish publish`:publish --force
+
+          # stage & commit（変更が無くてもエラーにならないようにする）
+          git add ./publish || true
+          git commit -m "Deploy to publish branch" || true
+
+          # publish プレフィックスのみのコミットを作成して publish ブランチへ強制 push
+          SHA=$(git subtree split --prefix publish HEAD)
+          git push origin ${SHA}:publish --force
