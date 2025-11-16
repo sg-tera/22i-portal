@@ -25,26 +25,17 @@ jobs:
       - name: Get changed HTML files
         id: changed_files
         run: |
-          # 前のコミットと今回のコミットの差分を取得
-          BEFORE=${{ github.event.before }}
-          AFTER=${{ github.sha }}
+          # 全ての HTML ファイルを対象にする
+          files=$(git ls-files '*.html')
 
-          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            # ブランチ作成時などは全ての HTML を対象にする
-            files=$(git ls-files '*.html')
-          else
-            files=$(git diff --name-only "$BEFORE" "$AFTER" -- '*.html' || true)
-          fi
-
-          # 改行をスペースに変換して出力（空の場合は空文字）
+          # 改行をスペースに変換して出力
           files=$(echo "$files" | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
 
           echo "Detected HTML files: '$files'"
           echo "files=$files" >> $GITHUB_OUTPUT
 
-      # 変更のあった HTML ファイルのみを圧縮（なければこのステップはスキップ）
+      # 全ての HTML ファイルを圧縮
       - name: Minify changed HTML files
-        if: ${{ steps.changed_files.outputs.files != '' }}
         run: |
           mkdir -p ./publish
           for file in ${{ steps.changed_files.outputs.files }}; do
@@ -60,26 +51,17 @@ jobs:
       - name: Get changed image files
         id: changed_images
         run: |
-          # 前のコミットと今回のコミットの差分を取得
-          BEFORE=${{ github.event.before }}
-          AFTER=${{ github.sha }}
+          # 全ての画像ファイルを対象にする
+          files=$(git ls-files 'image/*')
 
-          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            # ブランチ作成時などは全ての画像を対象にする
-            files=$(git ls-files 'image/*')
-          else
-            files=$(git diff --name-only "$BEFORE" "$AFTER" -- 'image/*' || true)
-          fi
-
-          # 改行をスペースに変換して出力（空の場合は空文字）
+          # 改行をスペースに変換して出力
           files=$(echo "$files" | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
 
           echo "Detected image files: '$files'"
           echo "files=$files" >> $GITHUB_OUTPUT
 
-      # 変更のあった画像ファイルのみをコピー（なければこのステップはスキップ）
+      # 全ての画像ファイルをコピー
       - name: Copy changed image files
-        if: ${{ steps.changed_images.outputs.files != '' }}
         run: |
           mkdir -p ./publish/image
           for file in ${{ steps.changed_images.outputs.files }}; do
