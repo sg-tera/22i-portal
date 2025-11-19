@@ -19,11 +19,21 @@ jobs:
         run: |
           npm install html-minifier-terser jq
 
-      - name: Build full publish directory (copy all files)
+      - name: Build publish directory (copy only html, css and image)
         run: |
           mkdir -p ./publish
-          # rsync repository files into publish/, excluding .git, .github and publish itself
-          rsync -a --delete --exclude='.git' --exclude='.github' --exclude='publish' ./ ./publish/
+          # Copy only HTML, CSS files and the image/ directory. Exclude everything else.
+          # Order of include/exclude matters: include directories, include target files, then exclude all others.
+          rsync -a --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='publish' \
+            --include='image/***' \
+            --include='*/' \
+            --include='*.html' \
+            --include='*.css' \
+            --exclude='*' \
+            ./ ./publish/
 
       - name: Minify all src HTML files into single-line at publish root
         run: |
