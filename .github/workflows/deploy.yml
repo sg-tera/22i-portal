@@ -19,62 +19,34 @@ jobs:
         run: |
           npm install html-minifier-terser jq
 
-      - name: Get added or modified files (A or M)
-        id: changed_files
-        run: |
-          BEFORE=${{ github.event.before }}
-          AFTER=${{ github.sha }}
-          echo "Before: $BEFORE"
-          echo "After: $AFTER"
-
-          # list added or modified HTML files under src/*.html
-          added_or_modified_html=$(git diff --name-status "$BEFORE" "$AFTER" | awk '$1 ~ /^[AM]$/ && $2 ~ /^src\/.*\.html$/ {print $2}' | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
-          # list added or modified files under image/
-          added_or_modified_images=$(git diff --name-status "$BEFORE" "$AFTER" | awk '$1 ~ /^[AM]$/ && $2 ~ /^image\// {print $2}' | tr '\n' ' ' | sed 's/^ *//;s/ *$//')
-
-          echo "Detected HTML files: $added_or_modified_html"
-          echo "Detected image files: $added_or_modified_images"
-
-          echo "html=$added_or_modified_html" >> $GITHUB_OUTPUT
-          echo "images=$added_or_modified_images" >> $GITHUB_OUTPUT
-
-      - name: Minify added/modified HTML files into single line
+      - name: Build full publish directory (copy all files)
         run: |
           mkdir -p ./publish
-          html_list="${{ steps.changed_files.outputs.html }}"
+          # rsync repository files into publish/, excluding .git, .github and publish itself
+          rsync -a --delete --exclude='.git' --exclude='.github' --exclude='publish' ./ ./publish/
 
-          if [ -z "$html_list" ]; then
-            echo "No new/modified HTML files to minify."
-          else
-            for file in $html_list; do
-              if [ -f "$file" ]; then
-                out="./publish/$(basename "$file")"
-                echo "Minifying: $file -> $out"
-                npx html-minifier-terser "$file" --collapse-whitespace --remove-comments --minify-css --minify-js | tr -d '\n' > "$out"
-              else
-                echo "Skip (not found): $file"
-              fi
-            done
-          fi
-
-      - name: Copy added/modified image files (preserve structure)
+      - name: Minify all src HTML files into single-line at publish root
         run: |
           mkdir -p ./publish
-          img_list="${{ steps.changed_files.outputs.images }}"
-
-          if [ -z "$img_list" ]; then
-            echo "No new/modified image files to copy."
-          else
-            for file in $img_list; do
-              if [ -f "$file" ]; then
-                # ensure target dir exists and copy preserving path
-                mkdir -p "./publish/$(dirname "$file")"
-                cp -a "$file" "./publish/$file"
-                echo "Copied: $file -> ./publish/$file"
-              else
-                echo "Skip (not found): $file"
+          for file in src/*.html; do
+            if [ -f "$file" ]; then
+              out="./publish/$(basename "$file")"
+              echo "Minifying: $file -> $out"
+              npx html-minifier-terser "$file" --collapse-whitespace --remove-comments --minify-css --minify-js | tr -d '\n' > "$out"
+              # remove duplicated copy under publish/src if exists
+              if [ -f "./publish/src/$(basename "$file")" ]; then
+                rm -f "./publish/src/$(basename "$file")"
               fi
-            done
+            fi
+          done
+
+      - name: Ensure image directory exists under publish
+        run: |
+          if [ -d image ]; then
+            mkdir -p ./publish/image
+            echo "image directory present in publish/image/"
+          else
+            echo "No image directory in repository"
           fi
 
       - name: Deploy to publish branch
@@ -82,7 +54,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # 変更が無ければスキップ
+          # skip if no changes in publish/
           if [ -z "$(git status --porcelain ./publish || true)" ]; then
             echo "No changes in publish/ to deploy. Skipping push."
             exit 0
