@@ -44,6 +44,26 @@
             margin-left: 20px;
         }
 
+        .rainbow {
+            background: linear-gradient(to right, red, orange, yellow, green, green, yellow, orange);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            background-size: 200% 100%;
+            animation: rainbowShift 4s linear infinite;
+        }
+
+        @keyframes rainbowShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
         @media (min-width: 800px) {
             .container {
                 display: flex;
@@ -84,9 +104,10 @@
     </div>
     <div class="container">
         <img class="img" src="./image/7go-kan.webp" width="414" height="300">
-        <section class="news">
+        <span class="news">
             <h2>★☆★ 4I NEWS ★☆★</h2>
             <h2>年末年始</h2>
+            <h3 class="rainbow">Happy New Year!</h3>
             <section>
                 <h2>休講情報</h2>
                 <p>2/2 <font color="red">補講</font> 岡田英語</p>
@@ -102,7 +123,7 @@
                 <p>titlebar(上のリンクのやつ)の新デザインの試験中です。ご意見ください。</p>
                 <p>作り途中ではあるが、疲れたのでhtmlには暫く触らん。気になるならプルリク送って、どうぞ。</p>
             </section>
-        </section>
+            </section>
     </div>
     <div class="info">
         <p>4年情報系<br>
