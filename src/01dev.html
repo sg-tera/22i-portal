@@ -56,7 +56,7 @@
 
         /* 上部の余白（駅名の高さ分を確保） */
         .header-spacer {
-            height: 111px;
+            height: 110px;
             /* .station-name と同じ高さ */
             padding-bottom: 10px;
             /* .station-name の padding と合わせる */
@@ -111,6 +111,14 @@
 
         .label-box.Tokiwa {
             background-color: #18ac50;
+        }
+
+        .label-box.Mizuho {
+            background-color: #ff7300;
+        }
+
+        .label-box.Sakura {
+            background-color: #ff66cc;
         }
 
 
@@ -209,6 +217,14 @@
             background-color: #18ac50;
         }
 
+        .line.Mizuho {
+            background-color: #ff7300;
+        }
+
+        .line.Sakura {
+            background-color: #ff66cc;
+        }
+
         .line.start {
             border-top-left-radius: 30px 20px;
             border-bottom-left-radius: 5px 5px;
@@ -270,11 +286,19 @@
             border-color: #18ac50;
         }
 
+        .line.Mizuho.stop::after {
+            border-color: #ff7300;
+        }
+
+        .line.Sakura.stop::after {
+            border-color: #ff66cc;
+        }
+
         /* 乗り換え案内 */
         .transfer {
             font-family: sans-serif;
             font-weight: 500;
-            margin-top: 15px;
+            margin-top: 0px;
             font-size: 11px;
             line-height: 1.4;
             color: black;
@@ -300,7 +324,7 @@
 
 <body>
     <div class="caution">
-        <p>※黄色駅は一部運用通過のため停車列車に注意</p>
+        <p>※紫色丸は一部運用通過のため停車列車に注意</p>
     </div>
 
     <div class="layout-wrapper">
@@ -616,11 +640,11 @@
     </div>
 
     <div class="caution">
-        <p>「のぞみ」号指定席を利用の際は「のぞみ特別急行料金」が加算されます。</p>
+        <p>「のぞみ」「みずほ」号指定席を利用の際は「のぞみ・みずほ号指定席特急料金」が加算されます。</p>
     </div>
     <div class="layout-wrapper">
         <div class="legend-col">
-            <div class="line-name">東海道新幹線</div>
+            <div class="line-name">東海道(幹)</div>
             <div class="header-spacer"></div>
             <div class="legend-tracks">
                 <div class="label-box superexp">のぞみ</div>
@@ -722,7 +746,7 @@
                 <li class="station has-transfer">
                     <div class="station-name">浜松<span class="en">Hamamatsu</span></div>
                     <div class="tracks">
-                        <div class="line superexp stop"></div>
+                        <div class="line superexp"></div>
                         <div class="line express stop ex"></div>
                         <div class="line local stop"></div>
                         <div class="transfer">遠州鉄道線</div>
@@ -802,6 +826,282 @@
             </ul>
         </div>
     </div>
+    </div>
+
+    <div class="layout-wrapper">
+        <div class="legend-col">
+            <div class="line-name">山陽(幹)</div>
+            <div class="header-spacer"></div>
+            <div class="legend-tracks">
+                <div class="label-box Mizuho">みずほ</div>
+                <div class="label-box superexp">のぞみ</div>
+                <div class="label-box Sakura">さくら</div>
+                <div class="label-box express">ひかり</div>
+                <div class="label-box local">こだま</div>
+                <div class="label-box local">つばめ</div>
+            </div>
+        </div>
+
+        <div class="scroll-area">
+            <ul class="route-list">
+                <li class="station has-transfer">
+                    <div class="station-name">新大阪<span class="en">Shin-Ōsaka</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho start stop"></div>
+                        <div class="line superexp stop"></div>
+                        <div class="line Sakura start stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">JR線<br>大阪メトロ御堂筋線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">新神戸<span class="en">Shin-Kōbe</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop"></div>
+                        <div class="line superexp stop"></div>
+                        <div class="line Sakura stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">神戸市営地下鉄線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">西明石<span class="en">Nishi-Akashi</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp stop ex"></div>
+                        <div class="line Sakura stop ex"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">姫路<span class="en">Himeji</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop ex"></div>
+                        <div class="line superexp stop ex"></div>
+                        <div class="line Sakura stop ex"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">JR線<br>山陽電鉄線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">相生<span class="en">Aioi</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp"></div>
+                        <div class="line Sakura"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">赤穂線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">岡山<span class="en">Okayama</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop"></div>
+                        <div class="line superexp stop"></div>
+                        <div class="line Sakura stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">JR線<br>岡山電気軌道線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">新倉敷<span class="en">Shin-Kurashiki</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop ex"></div>
+                        <div class="line superexp stop ex"></div>
+                        <div class="line Sakura stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">福山<span class="en">Fukuyama</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop ex"></div>
+                        <div class="line superexp stop ex"></div>
+                        <div class="line Sakura stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">福塩線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">新尾道<span class="en">Shin-Onomichi</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp"></div>
+                        <div class="line Sakura"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">三原<span class="en">Mihara</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp"></div>
+                        <div class="line Sakura"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">呉線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">東広島<span class="en">Higashi-Hiroshima</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp"></div>
+                        <div class="line Sakura"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">広島<span class="en">Hiroshima</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop"></div>
+                        <div class="line superexp stop"></div>
+                        <div class="line Sakura stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">JR線<br>広島電鉄本線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">新岩国<span class="en">Shin-Iwakuni</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp"></div>
+                        <div class="line Sakura"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">錦川鉄道線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">徳山<span class="en">Tokuyama</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp stop ex"></div>
+                        <div class="line Sakura stop ex"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">新山口<span class="en">Shin-Yamaguchi</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop ex"></div>
+                        <div class="line superexp stop ex"></div>
+                        <div class="line Sakura stop ex"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">山口線<br>宇部線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">厚狭<span class="en">Asa</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp"></div>
+                        <div class="line Sakura"></div>
+                        <div class="line express"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">新下関<span class="en">Shin-Shimonoseki</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho"></div>
+                        <div class="line superexp"></div>
+                        <div class="line Sakura stop ex"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local start stop"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">小倉<span class="en">Kokura</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop"></div>
+                        <div class="line superexp stop"></div>
+                        <div class="line Sakura stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線<br>北九州モノレール</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">博多<span class="en">Hakata</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho stop"></div>
+                        <div class="line superexp last stop"></div>
+                        <div class="line Sakura stop"></div>
+                        <div class="line express last stop"></div>
+                        <div class="line local last stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線<br>福岡市地下鉄線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">博多南<span class="en">Hakataminami</span></div>
+                    <div class="tracks">
+                        <div class="line Mizuho empty"></div>
+                        <div class="line superexp empty"></div>
+                        <div class="line Sakura empty"></div>
+                        <div class="line express empty"></div>
+                        <div class="line local start last stop"></div>
+                        <div class="line local empty"></div>
+                        <div class="transfer">博多↔博多南在来線扱</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">ほとんどは<br>九州新幹線<br>へ直通</div>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 
