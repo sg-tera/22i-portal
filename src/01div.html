@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Kosugi+Maru&display=swap');
+
+        .caution {
+            font-family: sans-serif;
+            background-color: #fffae6;
+            border: 2px solid #ffecb3;
+            padding: 0px 15px;
+            font-size: 14px;
+            color: black;
+        }
+
+        /* === 1. 全体レイアウト（左固定 + 右スクロール） === */
+        .layout-wrapper {
+            display: flex;
+            /* 横並びにする */
+            width: 100%;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* 左側：固定エリア（種別ラベル） */
+        .legend-col {
+            flex: 0 0 auto;
+            /* 幅を固定、伸縮させない */
+            padding: 20px 10px 20px 20px;
+            /* 右側の余白は少し狭めに */
+            z-index: 2;
+            box-shadow: 5px 0 10px -5px rgba(0, 0, 0, 0.1);
+            /* 境界に少し影を落とす */
+            background-color: #fff;
+        }
+
+        /* 右側：スクロールエリア（路線図） */
+        .scroll-area {
+            flex: 1;
+            /* 残りの幅を全部使う */
+            overflow-x: auto;
+            /* ここだけスクロールさせる */
+            padding: 20px;
+        }
+
+        /* === 2. 高さ合わせのための共通設定 === */
+        /* 左側のラベル群と、右側の駅・線を縦方向に揃えるために重要 */
+
+        .line-name {
+            font-family: "Kosugi Maru", sans-serif;
+            font-size: 15px;
+        }
+
+        /* 上部の余白（駅名の高さ分を確保） */
+        .header-spacer {
+            height: 111px;
+            /* .station-name と同じ高さ */
+            padding-bottom: 10px;
+            /* .station-name の padding と合わせる */
+        }
+
+        /* 線・ラベルを囲むコンテナ */
+        .legend-tracks {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            /* .tracks の gap と同じにする */
+            align-items: flex-end;
+        }
+
+        /* 種別ラベルのスタイル */
+        .label-box {
+            font-family: "Kosugi Maru", sans-serif;
+            height: 16px;
+            /* .line の高さと同じにする */
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            font-size: 14px;
+            color: #fff;
+            border-radius: 3px;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        /* 色設定 */
+        .label-box.superexp {
+            background-color: #f0c816;
+        }
+
+        .label-box.express {
+            background-color: #dc143c;
+        }
+
+        .label-box.semi {
+            background-color: #00a65e;
+        }
+
+        .label-box.local {
+            background-color: #0068b7;
+        }
+
+        .label-box.Hitachi {
+            background-color: #ff0095;
+        }
+
+        .label-box.Tokiwa {
+            background-color: #18ac50;
+        }
+
+
+        /* === 3. 右側の路線図スタイル === */
+        .route-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: max-content;
+        }
+
+        .station {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+            position: relative;
+        }
+
+        .station-name {
+            font-family: sans-serif;
+            font-weight: bold;
+            height: 120px;
+            /* ここの高さを .header-spacer と合わせる */
+            position: relative;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            font-size: 16px;
+            letter-spacing: 0px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+
+        .station-name span.en {
+            position: absolute;
+            /*レイアウトから切り離す*/
+            bottom: 10px;
+            font-size: 12px;
+            color: #666;
+            writing-mode: horizontal-tb;
+            transform: rotate(-90deg);
+            transform-origin: left bottom;
+            margin-left: 0px;
+            white-space: nowrap;
+        }
+
+        .tracks {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            /* ここの隙間を .legend-tracks と合わせる */
+            width: 100%;
+        }
+
+        .line {
+            height: 16px;
+            /* ここの高さを .label-box と合わせる */
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .line.empty {
+            background-color: transparent !important;
+        }
+
+        /*透明*/
+
+
+        .line.superexp {
+            background-color: #f0c816;
+        }
+
+        .line.express {
+            background-color: #dc143c;
+        }
+
+        .line.semi {
+            background-color: #00a65e;
+        }
+
+        .line.local {
+            background-color: #0068b7;
+        }
+
+        .line.Hitachi {
+            background-color: #ff0095;
+        }
+
+        .line.Tokiwa {
+            background-color: #18ac50;
+        }
+
+        .line.start {
+            border-top-left-radius: 30px 20px;
+            border-bottom-left-radius: 5px 5px;
+        }
+
+        /*
+            border-top-left-radius: 30px 20px;
+            border-bottom-left-radius: 5px 5px;
+
+            border-top-left-radius: 20px 8px;
+            border-bottom-left-radius: 20px 8px;
+        */
+
+        .line.last {
+            border-top-right-radius: 30px 20px;
+            border-bottom-right-radius: 5px 5px;
+        }
+
+        .line.stop::after {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            border: 2px solid;
+            z-index: 1;
+        }
+
+        .line.empty.stop::after {
+            display: none;
+        }
+
+        .line.stop.ex::after {
+            background-color: #7e4df0;
+        }
+
+        .line.superexp.stop::after {
+            border-color: #f0c816;
+        }
+
+        .line.express.stop::after {
+            border-color: #dc143c;
+        }
+
+        .line.semi.stop::after {
+            border-color: #00a65e;
+        }
+
+        .line.local.stop::after {
+            border-color: #0068b7;
+        }
+
+        .line.Hitachi.stop::after {
+            border-color: #ff0095;
+        }
+
+        .line.Tokiwa.stop::after {
+            border-color: #18ac50;
+        }
+
+        /* 乗り換え案内 */
+        .transfer {
+            font-family: sans-serif;
+            font-weight: 500;
+            margin-top: 15px;
+            font-size: 11px;
+            line-height: 1.4;
+            color: black;
+            writing-mode: horizontal-tb;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .transfer::before {
+            content: '';
+            display: block;
+            width: 2px;
+            height: 10px;
+            background-color: #333;
+            margin: 0 auto 5px auto;
+        }
+
+        .station:not(.has-transfer) .transfer {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="caution">
+        <p>※黄色駅は一部運用通過のため停車列車に注意</p>
+    </div>
+
+    <div class="layout-wrapper">
+        <div class="legend-col">
+            <div class="line-name">常磐特急</div>
+            <div class="header-spacer"></div>
+            <div class="legend-tracks">
+                <div class="label-box Hitachi">ひたち</div>
+                <div class="label-box Tokiwa">ときわ</div>
+            </div>
+        </div>
+
+        <div class="scroll-area">
+            <ul class="route-list">
+
+                <li class="station has-transfer">
+                    <div class="station-name">仙台<span class="en">Sendai</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi start stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                        <div class="transfer">新幹線<br>JR線<br>仙台市営地下鉄線</div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">岩沼<span class="en">Iwanuma</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">亘理<span class="en">Watari</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">相馬<span class="en">Sōma</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">原ノ町<span class="en">Haranomachi</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">浪江<span class="en">Namie</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">双葉<span class="en">Futaba</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">大野<span class="en">Ōno</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">富岡<span class="en">Tomioka</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">広野<span class="en">Hirono</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">いわき<span class="en">Iwaki</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                        <div class="transfer">磐越東線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">湯本<span class="en">Yumoto</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                        <div class="transfer">ハワイアンズ</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">泉<span class="en">Izumi</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">勿来<span class="en">Nakoso</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">磯原<span class="en">Isohara</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa empty"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">高萩<span class="en">Takahagi</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa start stop"></div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">日立<span class="en">Hitachi</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa stop"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">常陸多賀<span class="en">Hitachi-Taga</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa stop"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">大甕<span class="en">Ōmika</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa stop"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">東海<span class="en">Tōkai</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">勝田<span class="en">Katsuta</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa stop"></div>
+                        <div class="transfer">ひたちなか<br>海浜鉄道線<br>★茨城高専★</div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">水戸<span class="en">Mito</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa stop"></div>
+                        <div class="transfer">水郡線<br>水戸線<br>鹿島臨海鉄道線</div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">偕楽園<span class="en">Kairakuen</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                        <div class="transfer">
+                            <font color="red">季節限定臨時駅</font><br>下り専用
+                        </div>
+                    </div>
+
+                <li class="station">
+                    <div class="station-name">赤塚<span class="en">Akatsuka</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">友部<span class="en">Tomobe</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop"></div>
+                        <div class="transfer">水戸線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">石岡<span class="en">Ishioka</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">土浦<span class="en">Tsuchiura</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa stop"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">荒川沖<span class="en">Arakawaoki</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">ひたち野うしく<span class="en">Hitachinoushiku</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">牛久<span class="en">Ushiku</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">龍ケ崎市<span class="en">Ryūgasakishi</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                        <div class="transfer">関鉄竜ヶ崎線</div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">柏<span class="en">Kashiwa</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop ex"></div>
+                        <div class="line Tokiwa stop"></div>
+                        <div class="transfer">常磐緩行線<br>東武ｱｰﾊﾞﾝﾊﾟｰｸﾗｲﾝ</div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">日暮里<span class="en">Nippori</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi"></div>
+                        <div class="line Tokiwa stop ex"></div>
+                        <div class="transfer">JR線<br>京成線<br>日暮里・舎人ﾗｲﾅｰ</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">上野<span class="en">Ueno</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa stop"></div>
+                        <div class="transfer">東北新幹線<br>東海道本線系統<br>東京メトロ線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">東京<span class="en">Tokyo</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi stop"></div>
+                        <div class="line Tokiwa stop"></div>
+                        <div class="transfer">中央線<br>京葉線<br>東京メトロ線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">品川<span class="en">Shinagawa</span></div>
+                    <div class="tracks">
+                        <div class="line Hitachi last stop"></div>
+                        <div class="line Tokiwa last stop"></div>
+                        <div class="transfer">東海道新幹線<br>横須賀・総武線(快速)<br>京急線</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="caution">
+        <p>「のぞみ」号指定席を利用の際は「のぞみ特別急行料金」が加算されます。</p>
+    </div>
+    <div class="layout-wrapper">
+        <div class="legend-col">
+            <div class="line-name">東海道新幹線</div>
+            <div class="header-spacer"></div>
+            <div class="legend-tracks">
+                <div class="label-box superexp">のぞみ</div>
+                <div class="label-box express">ひかり</div>
+                <div class="label-box local">こだま</div>
+            </div>
+        </div>
+
+        <div class="scroll-area">
+            <ul class="route-list">
+                <li class="station has-transfer">
+                    <div class="station-name">東京<span class="en">Tokyo</span></div>
+                    <div class="tracks">
+                        <div class="line superexp start stop"></div>
+                        <div class="line express start stop"></div>
+                        <div class="line local start stop"></div>
+                        <div class="transfer">新幹線<br>東京メトロ線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">品川<span class="en">Shinagawa</span></div>
+                    <div class="tracks">
+                        <div class="line superexp stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">京急線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">新横浜<span class="en">Shin-Yokohama</span></div>
+                    <div class="tracks">
+                        <div class="line superexp stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">相鉄・東急新横浜線<br>市営地下鉄ﾌﾞﾙｰﾗｲﾝ</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">小田原<span class="en">Odawara</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">小田急線<br>伊豆箱根鉄道大雄山線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">熱海<span class="en">Atami</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">三島<span class="en">Mishima</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">伊豆箱根鉄道駿豆線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">新富士<span class="en">Shin-Fuji</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express"></div>
+                        <div class="line local stop"></div>
+                    </div>
+                </li>
+                <li class="station has-transfer">
+                    <div class="station-name">静岡<span class="en">Shizuoka</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">静岡鉄道線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">掛川<span class="en">Kakegawa</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">天竜浜名湖鉄道線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">浜松<span class="en">Hamamatsu</span></div>
+                    <div class="tracks">
+                        <div class="line superexp stop"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">遠州鉄道線</div>
+                    </div>
+                </li>
+                <li class="station has-transfer">
+                    <div class="station-name">豊橋<span class="en">Toyohashi</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線<br>名鉄名古屋本線<br>豊橋鉄道線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">三河安城<span class="en">Mikawa-Anjō</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express"></div>
+                        <div class="line local stop"></div>
+                    </div>
+                </li>
+                <li class="station has-transfer">
+                    <div class="station-name">名古屋<span class="en">Nagoya</span></div>
+                    <div class="tracks">
+                        <div class="line superexp stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線<br>近鉄線<br>名古屋市営地下鉄線 他</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">岐阜羽島<span class="en">Gifu-Hashima</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">名鉄羽島線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">米原<span class="en">Maibara</span></div>
+                    <div class="tracks">
+                        <div class="line superexp"></div>
+                        <div class="line express stop ex"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線<br>近江鉄道線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">京都<span class="en">Kyoto</span></div>
+                    <div class="tracks">
+                        <div class="line superexp stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線<br>近鉄京都線<br>市営地下鉄烏丸線</div>
+                    </div>
+                </li>
+
+                <li class="station has-transfer">
+                    <div class="station-name">新大阪<span class="en">Shin-Osaka</span></div>
+                    <div class="tracks">
+                        <div class="line superexp stop"></div>
+                        <div class="line express stop"></div>
+                        <div class="line local stop"></div>
+                        <div class="transfer">JR線<br>大阪メトロ御堂筋線</div>
+                    </div>
+                </li>
+
+                <li class="station">
+                    <div class="station-name">ほとんどは<br>山陽新幹線<br>へ直通</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
