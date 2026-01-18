@@ -93,14 +93,17 @@
                 <tr>
                     <th>コマンド</th>
                     <th>説明</th>
+                    <th>備考</th>
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
                     <td><code>Esc</code></td>
                     <td>ノーマルモードに戻る</td>
+                    <td>困ったらこれ。気がついたらこれ。呼吸よりもこれ。</td>
                 </tr>
+
+                <!-- INFO: Locomotion -->
                 <tr>
                     <td><code>k</code></td>
                     <td>カーソルを上に移動</td>
@@ -117,10 +120,264 @@
                     <td><code>l</code></td>
                     <td>カーソルを右に移動</td>
                 </tr>
+
                 <tr>
-                    <td><code>:</code></td>
-                    <td>コマンドモードに入る</td>
+                    <td><code>w</code></td>
+                    <td>次の単語の先頭に移動 (word)</td>
+                    <td><code>:h word</code>で詳細を見れる。</td>
                 </tr>
+                <tr>
+                    <td><code>W</code></td>
+                    <td>記号を無視してスペース区切りで移動する</td>
+                    <td>Wはshift+wを表す</td>
+                </tr>
+                <tr>
+                    <td><code>b</code></td>
+                    <td>前の単語の先頭に移動</td>
+                </tr>
+                <tr>
+                    <td><code>B</code></td>
+                    <td>記号を無視してスペース区切りで戻る</td>
+                </tr>
+                <tr>
+                    <td><code>e</code></td>
+                    <td>単語の末尾に移動</td>
+                </tr>
+                <tr>
+                    <td><code>E</code></td>
+                    <td>記号を無視してスペース区切りの最後へ移動</td>
+                </tr>
+
+                <tr>
+                    <td><code>gg</code></td>
+                    <td>カーソルの縦座標をファイルの一行目へ移動</td>
+                    <td><code>10gg</code>と打てば10行目に移動する。<code>:10</code>でも同じ。</td>
+                </tr>
+                <tr>
+                    <td><code>G</code></td>
+                    <td>カーソルの縦座標をファイルの最終行へ移動</td>
+                    <td><code>10G</code>と打てば10行目に移動する</td>
+                </tr>
+                <tr>
+                    <td><code>gd</code></td>
+                    <td>定義へ移動 (Go Definition)</td>
+                    <td>標準では「ファイル内の宣言場所」へ飛ぶだけだが、<br>
+                        を入れると「別ファイルの定義元」へ飛べるようになるデファクトスタンダード</td>
+                </tr>
+                <tr>
+                    <td><code>gr</code></td>
+                    <td>参照一覧を表示・移動 (Go References)</td>
+                    <td>標準機能ではない（標準の<code>gr</code>は無効または別機能）。<br>
+                        環境では「その変数が使われている場所」を一覧表示するキーとして定着している</td>
+                </tr>
+                <tr>
+                    <td><code>gf</code></td>
+                    <td>カーソル下のファイル名を開く (Go File)</td>
+                    <td><code>include "header.h"</code> のファイル名の上で押すと、そのファイルに飛べる。<br>
+                        パスが正しければ標準機能で動く</td>
+                </tr>
+                <tr>
+                    <td><code>0</code></td>
+                    <td>カーソルの横座標を0列目へ移動</td>
+                    <td>数字のzeroであってアルファベットに属するoではない</td>
+                </tr>
+                <tr>
+                    <td><code>$</code></td>
+                    <td>カーソルの横座標を最終列目へ移動</td>
+                </tr>
+
+                <tr>
+                    <td><code>^</code></td>
+                    <td>行の最初の空白以外の文字に移動</td>
+                    <td>pythonのようなインデントされたコードでは <code>0</code> よりもこちらを多用する</td>
+                </tr>
+                <tr>
+                    <td><code>%</code></td>
+                    <td>対応する括弧に移動 <code>()</code> <code>[]</code> <code>{}</code></td>
+                </tr>
+
+                <tr>
+                    <td><code>{</code></td>
+                    <td>パラグラフの始まりの一行外側に移動する</td>
+                    <td>パラグラフ(paragraph)について知りたいなら<code>:h paragraph</code></td>
+                </tr>
+                <tr>
+                    <td><code>}</code></td>
+                    <td>パラグラフの終わり一行外側に移動する</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><code>]]</code></td>
+                    <td>カーソルを現在の行より下の<strong>行頭</strong>にある<code>{</code>に移動する</td>
+                    <td>次の関数の先頭へ飛びたい時、という使い方をする場合<br>
+                        <code>int main()<strong>{</strong>...</code>のようなコーディングスタイルをやめなければならない。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[[</code></td>
+                    <td>カーソルを現在の行より上の<strong>行頭</strong>にある<code>{</code>に移動する</td>
+                    <td>前の関数の先頭（または現在地の先頭）へ戻りたい時</td>
+                </tr>
+                <tr>
+                    <td><code>][</code></td>
+                    <td>カーソルを現在の行より下の<strong>行頭</strong>にある <code>}</code>に移動する</td>
+                    <td>現在の関数の終わりへ飛びたい時</td>
+                </tr>
+                <tr>
+                    <td><code>[]</code></td>
+                    <td>カーソルを現在の行より上の<strong>行頭</strong>にある <code>}</code>に移動する</td>
+                    <td>前の関数の終わりへ戻りたい時</td>
+                </tr>
+
+                <tr>
+                    <td><code>)</code></td>
+                    <td>次のセンテンスの先頭に移動する</td>
+                    <td>正直プログラミングでは使いにくい</td>
+                </tr>
+                <tr>
+                    <td><code>(</code></td>
+                    <td>前のセンテンスの先頭に移動する</td>
+                    <td><code>:h sentence</code>でセンテンスの定義を見れる</td>
+                </tr>
+
+                <tr>
+                    <td><code>f{char}</code></td>
+                    <td>カーソル位置をカーソル位置から右側以降で見つかった最初の{char}に移動する</td>
+                    <td><code>ff</code> と打てばカーソルより右の最初の'f'へカーソル位置が動く。</td>
+                </tr>
+                <tr>
+                    <td><code>F{char}</code></td>
+                    <td>カーソル位置をカーソル位置から左側以降で見つかった最初の{char}に移動する</td>
+                    <td><code>Ff</code> と打てばカーソルより左の最初の'f'へカーソル位置が動く。</td>
+                </tr>
+                <tr>
+                    <td><code>t{char}</code></td>
+                    <td>カーソル位置をカーソル位置から右側以降で見つかった最初の{char}の左側に移動する</td>
+                </tr>
+                <tr>
+                    <td><code>T{char}</code></td>
+                    <td>カーソル位置をカーソル位置から左側以降で見つかった最初の{char}の右側に移動する</td>
+                </tr>
+                <tr>
+                    <td><code>;</code></td>
+                    <td>直前の <code>f, t, F, T</code> の検索を繰り返す</td>
+                </tr>
+                <tr>
+                    <td><code>,</code></td>
+                    <td>直前の <code>f, t, F, T</code> の検索を<strong>逆方向に</strong>繰り返す</td>
+                </tr>
+
+                <tr>
+                    <td><code>^o</code></td>
+                    <td>ひとつ前のジャンプ位置に戻る</td>
+                    <td>大きな動きに対して有効。h,j,k,lのような動きでは記録されない</td>
+                </tr>
+                <tr>
+                    <td><code>^iまたは&lt;Tab&gt;</code></td>
+                    <td>ひとつ後のジャンプ位置へ移動する</td>
+                    <td>^o, ^iについて詳しく知りたいなら<code>:h jump-motions</code>とタイプしてみよう。</td>
+                <tr>
+                    <td><code>g;</code></td>
+                    <td>最後に<strong>編集した</strong>場所へ移動</td>
+                    <td><code>^o</code> (ジャンプリスト) と違い、「編集」した場所だけを辿れる。超便利。</td>
+                </tr>
+                <tr>
+                    <td><code>g,</code></td>
+                    <td><code>g;</code> で戻りすぎた時に進む</td>
+                    <td>編集箇所の履歴を順方向に辿る</td>
+                </tr>
+
+                <tr>
+                    <td><code>H</code> / <code>M</code> / <code>L</code></td>
+                    <td>今見えてる画面内の 最上部(High) / 中央(Middle) / 最下部(Low) に移動</td>
+                    <td>プラグインによって上書きされていることがしばしば</td>
+                </tr>
+                <tr>
+                    <td><code>zz</code></td>
+                    <td>カーソル行を画面中央へ</td>
+                </tr>
+                <tr>
+                    <td><code>zt</code></td>
+                    <td>カーソル行が<strong>画面の一番上</strong>に来るようにスクロール (Top)</td>
+                    <td>関数の先頭を画面一番上に持ってきて、下の方まで広く見たい時に使う</td>
+                </tr>
+                <tr>
+                    <td><code>zb</code></td>
+                    <td>カーソル行が<strong>画面の一番下</strong>に来るようにスクロール (Bottom)</td>
+                    <td><code>zz</code>, <code>zt</code>, <code>zb</code> の3兄弟</td>
+                </tr>
+
+                <tr>
+                    <td><code>/{pattern}</code></td>
+                    <td>文字列 {pattern} を前方検索する</td>
+                    <td>検索後に <code>Enter</code> で確定。正規表現も使える。</td>
+                </tr>
+                <tr>
+                    <td><code>?{pattern}</code></td>
+                    <td>文字列 {pattern} を後方検索する</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>*</code></td>
+                    <td>カーソル下の単語を前方検索する</td>
+                    <td><strong>超便利。</strong>変数名の上で押せば、次に出てくる同じ変数の場所に飛べる。</td>
+                </tr>
+                <tr>
+                    <td><code>#</code></td>
+                    <td>カーソル下の単語を後方検索する</td>
+                    <td><code>*</code> の逆方向</td>
+                </tr>
+                <tr>
+                    <td><code>n</code></td>
+                    <td>次の検索結果へ移動 (next)</td>
+                    <td><code>/</code> の後は下方向、<code>?</code> の後は上方向に進む</td>
+                </tr>
+                <tr>
+                    <td><code>N</code></td>
+                    <td>前の検索結果へ移動</td>
+                    <td><code>n</code> の逆方向</td>
+                </tr>
+
+                <tr>
+                    <td><code>^u</code></td>
+                    <td>半画面分、上へスクロール (Up)</td>
+                    <td><code>^b</code> (Back / 1画面戻る) よりも文脈を見失いにくいので好まれる傾向がある</td>
+                </tr>
+                <tr>
+                    <td><code>^d</code></td>
+                    <td>半画面分、下へスクロール (Down)</td>
+                    <td><code>^f</code> (Forward / 1画面進む) よりも好まれる</td>
+                </tr>
+
+                <tr>
+                    <td><code>m{a-z}</code></td>
+                    <td>現在のカーソル位置をマーク {a-z} に記録する</td>
+                    <td><code>ma</code> と打てば、現在地が 'a' に登録される</td>
+                </tr>
+                <tr>
+                    <td><code>'{a-z}</code></td>
+                    <td>マーク {a-z} をつけた行の行頭へ移動する</td>
+                    <td><code>'a</code> でマーク a の行へ戻る（シングルクォート）</td>
+                </tr>
+                <tr>
+                    <td><code>`{a-z}</code></td>
+                    <td>マーク {a-z} をつけた<strong>正確な位置（列含む）</strong>へ移動する</td>
+                    <td>バッククォート。行頭ではなくピンポイントに戻りたい時に使う</td>
+                </tr>
+
+                <tr>
+                    <td><code>+</code></td>
+                    <td>次の行の行頭（最初の非空白文字）へ移動</td>
+                    <td><code>j</code> 押して <code>^</code> 押すのと同じ。Enterキーでも同じ挙動をする。</td>
+                </tr>
+                <tr>
+                    <td><code>-</code></td>
+                    <td>前の行の行頭（最初の非空白文字）へ移動</td>
+                    <td><code>k</code> 押して <code>^</code> 押すのと同じ。</td>
+                </tr>
+
+                <!-- INFO: edit -->
                 <tr>
                     <td><code>i</code></td>
                     <td>今のカーソル位置でインサートモード</td>
