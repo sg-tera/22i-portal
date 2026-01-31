@@ -455,12 +455,20 @@
 
             <tbody>
                 <tr>
-                    <td><code>i</code></td>
+                    <td><code>[count]i</code></td>
                     <td>今のカーソル位置でインサートモード</td>
                 </tr>
                 <tr>
-                    <td><code>a</code></td>
+                    <td><code>[count]I</code></td>
+                    <td>今のカーソル位置の文字列の行頭からインサートモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>[count]a</code></td>
                     <td>今のカーソル位置の一つ右からインサートモード</td>
+                </tr>
+                <tr>
+                    <td><code>[count]A</code></td>
+                    <td>今のカーソル位置の文字列の行末からインサートモードに入る</td>
                 </tr>
 
                 <tr>
@@ -475,6 +483,35 @@
                     <td><code>[count]O</code></td>
                     <td>今のカーソル位置の上に新しい行を作ってインサートモード</td>
                 </tr>
+
+                <tr>
+                    <td><code>[count]r{char}</code></td>
+                    <td>現在のカーソル位置の文字を{char}で置き換える</td>
+                    <td>sコマンドが存在するがrで代用できる</td>
+                </tr>
+                <tr>
+                    <td><code>[count]R</code></td>
+                    <td>現在のカーソル位置からReplace Modeへ入る</td>
+                    <td>何を隠そう、Replace modeの登場だがモード名は覚えなくてよく、<br>
+                        <code>RGNU's Not Unix!</code>と打てば現在のカーソル位置から右にある文字列が<br>
+                        GNU's Not Unix!に置き換わる。
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]c{motion}</code></td>
+                    <td>現在のカーソル位置から{motion}で移動した範囲を消してインサートモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>[count]cc</code></td>
+                    <td>現在のカーソル行を消してインサートモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>[count]C</code></td>
+                    <td>現在のカーソル位置から右側を消してインサートモードに入る</td>
+                    <td><code>2C</code>と打てばカーソル行含む下に二行が消えてインサートモードになる</td>
+                </tr>
+
 
             </tbody>
         </table>
