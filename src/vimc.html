@@ -47,10 +47,6 @@
             border: 1px solid lightslategray;
         }
 
-        th {
-            background-color: #7ed5f7;
-        }
-
         ul {
             text-align: center;
             list-style-type: none;
@@ -90,7 +86,7 @@
 
         <table>
             <thead>
-                <tr>
+                <tr style="background-color: deepskyblue;">
                     <th>コマンド</th>
                     <th>説明</th>
                     <th>備考</th>
@@ -103,7 +99,6 @@
                     <td>困ったらこれ。気がついたらこれ。呼吸よりもこれ。</td>
                 </tr>
 
-                <!-- INFO: Locomotion -->
                 <tr>
                     <td><code>k</code></td>
                     <td>カーソルを上に移動</td>
@@ -357,12 +352,13 @@
 
         <table>
             <thead>
-                <tr>
+                <tr style="background-color: limegreen;">
                     <th>コマンド</th>
                     <th>説明</th>
                     <th>備考</th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr>
                     <td><code>i</code></td>
@@ -372,6 +368,7 @@
                     <td><code>a</code></td>
                     <td>今のカーソル位置の一つ右からインサートモード</td>
                 </tr>
+
                 <tr>
                     <td><code>o</code></td>
                     <td>今のカーソル位置の下に新しい行を作ってインサートモード</td>
@@ -380,9 +377,11 @@
                     <td><code>O</code></td>
                     <td>今のカーソル位置の上に新しい行を作ってインサートモード</td>
                 </tr>
+
                 <tr>
                     <td><code>x</code></td>
                     <td>今のカーソル位置の文字を削除</td>
+                    <td>正確に言うとインサートモードではなくノーマルモードのコマンドだが編集に利用できる。</td>
                 </tr>
                 <tr>
                     <td><code>dd</code></td>
