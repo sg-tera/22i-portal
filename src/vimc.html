@@ -317,6 +317,22 @@
                 <tr>
                     <th style="background-color: lightgray" colspan="3">Edit</th>
                 </tr>
+
+                <tr>
+                    <td><code>["x][count]y{motion}</code></td>
+                    <td>今のカーソル位置の行をヤンク<br>
+                        最も慣れ親しんだいい方で言うならコピー
+                    </td>
+                    <td> <code>2yj</code>または<code>y2j</code>と打てばカーソル行含む下二行がヤンクされる<br>
+                        <code>2y}</code>と打てば下にある2個のパラグラフがヤンクされる。<br>
+                        レジスタと組み合わせるともっと便利だが余白（以下略）
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]yy</code></td>
+                    <td>今のカーソル位置の行を削除</td>
+                </tr>
+
                 <tr>
                     <td><code>["x][count]x</code></td>
                     <td>今のカーソル位置の文字を削除</td>
@@ -333,12 +349,29 @@
                 <tr>
                     <td><code>["x][count]d{motion}</code></td>
                     <td>今のカーソル位置の行を削除 </td>
-                    <td> <code>2dj</code>と打てばカーソル行含む下二行が消える。 </td>
+                    <td> <code>2dj</code>または<code>d2j</code>と打てばカーソル行含む下二行が消える。<br>
+                        <code>2d}</code>と打てば下にある2個のパラグラフが消える。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]D</code></td>
+                    <td>今のカーソル位置より文末までを削除</td>
                 </tr>
                 <tr>
                     <td><code>["x][count]dd</code></td>
                     <td>今のカーソル位置の行を削除</td>
                 </tr>
+
+                <tr>
+                    <td><code>["x][count]p</code></td>
+                    <td>今のカーソル位置の行から下にペースト </td>
+                    <td> レジスタ..余白（以下略） </td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]P</code></td>
+                    <td>今のカーソル位置の行から上にペースト </td>
+                </tr>
+
                 <tr>
                     <td><code>[count]u</code></td>
                     <td>Undo</td>
@@ -431,11 +464,14 @@
                 </tr>
 
                 <tr>
-                    <td><code>o</code></td>
+                    <td><code>[count]o</code></td>
                     <td>今のカーソル位置の下に新しい行を作ってインサートモード</td>
+                    <td><code>3o</code>を入力後,stringと入力し,<code>&lt;ESC&gt;</code>を押すと下に三行現れる。<br>
+                        しかし、奇妙なことに<code>&lt;Ctrl-c&gt;</code>を押すと三行追加はキャンセルされる。
+                    </td>
                 </tr>
                 <tr>
-                    <td><code>O</code></td>
+                    <td><code>[count]O</code></td>
                     <td>今のカーソル位置の上に新しい行を作ってインサートモード</td>
                 </tr>
 
