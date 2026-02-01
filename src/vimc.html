@@ -9,6 +9,7 @@
     <style>
         body {
             font-family: system-ui;
+            padding-bottom: 100px;
         }
 
         #backToTop {
@@ -45,10 +46,7 @@
         th,
         td {
             border: 1px solid lightslategray;
-        }
-
-        th {
-            background-color: #7ed5f7;
+            border-collapse: collapse;
         }
 
         ul {
@@ -63,76 +61,835 @@
     <a href="./tech.html" id="backToTop">技術トップへ戻る</a>
 
     <section>
-        <h2>Vimチートシート</h2>
-        <p>Vimの基本的な操作をまとめたチートシートです。vimは<span
-                style="color: chocolate;">ノーマルモード、インサートモード、コマンドモード、ビジュアルモード</span>の4つに分かれます。<br>基本はノーマルモードです。ノーマルモードでは移動などができます。<br>
-            コマンドは大文字と小文字を区別するのに注意
+        <h2>-- Vim実践への道 --</h2>
+        <p>このファイルはVim/Neovimがあなたの常用<u>コードエディタ</u>となることをサポートするためのhtmlファイルであり、あなたがプログラマとして、作業を行うための<u>実践的なモノのみ</u>を掲載している。<br>
+            "Vim大百科事典"のように"不必要な"コマンドすら掲載しているわけではない。<br>
+            <strong>Vim/Neovim</strong>は<strong>モーダルエディタ</strong>に分類される<strong>テキストエディタ</strong>
+            で主に以下<strong>四つのモード</strong>を行き来する。<br>
+            <strong>
+                <span style="color: deepskyblue;">Normal Mode</span>,
+                <span style="color: limegreen;">Insert Mode</span>,
+                <span style="color: orange;">Visual Mode</span>
+                <span style="color: mediumpurple;">Command-line mode</span>が存在する。<br>
+            </strong><br>
+            念のため言っておくと<code>:q!</code>と書いてあるなら<strong>文字通り</strong>:q!と打つべきである。<br>
+            <em>それでは、Vimと共にあらんことを</em>
         </p>
+
+        <h3 style="margin-bottom: 0; line-height: 1.2;">ノーマルモード</h3>
+        <p style="margin-top: 0; line-height: 1.5;">
+            オフィスに鳴り響く電話、コピー機そしてキーボードの音。<br>
+            そっと、ショルダーハッキングしてみるとその社員はホームポジションと呼ばれる場所に手を置いているではないか。
+            そして、書き出す。書きだしたと思えばまた、定位置へ戻る。<br>
+            普通にキーボードで入力を難なくこなせる一般社員であれば必ずキーボードにおけるホームポジションから始まるはずだ。<br>
+            これは、Vimmerにも同じことがいえる。<br>
+            Normal Mode、これはVimにおけるホームポジションであり、これから説明するコマンドたちにとってそれは<strong>全ての原点</strong>なのだ。<br>
+            一般Vimmerなら必ず始まりと終わりはここにいなければならない。そうでないなら、それはもはや「一本指打法」と同じくらい作法の悪い振る舞いであり、目も当てられない。<br>
+            さらに、いうならH, J, K, LこれらのキーはVimmerにとって第二のホームポジションと言えるだろう。
+        </p>
+
         <table>
-            <h3>ノーマルモード</h3>
             <thead>
-                <tr>
+                <tr style="background-color: deepskyblue;">
                     <th>コマンド</th>
                     <th>説明</th>
+                    <th>備考</th>
                 </tr>
             </thead>
             <tbody>
-
+                <tr>
+                    <th style="background-color: lightgray" colspan="3">Locomotions</th>
+                </tr>
                 <tr>
                     <td><code>Esc</code></td>
                     <td>ノーマルモードに戻る</td>
+                    <td>困ったらこれ。気がついたらこれ。呼吸よりもこれ。</td>
                 </tr>
+
                 <tr>
-                    <td><code>k</code></td>
+                    <td><code>[count]k</code></td>
                     <td>カーソルを上に移動</td>
+                    <td>[count]というのは基本、正の整数回繰り返すを意味し、<br>
+                        <code>4j</code>と打てば四行目下に移動する。<br>
+                        ちなみに、[]で囲まれたものはoptionalであり、<br>
+                        これから、登場する大多数のコマンドで利用可能なものである。
+                    </td>
                 </tr>
                 <tr>
-                    <td><code>j</code></td>
+                    <td><code>[count]j</code></td>
                     <td>カーソルを下に移動</td>
                 </tr>
                 <tr>
-                    <td><code>h</code></td>
+                    <td><code>[count]h</code></td>
                     <td>カーソルを左に移動</td>
                 </tr>
                 <tr>
-                    <td><code>l</code></td>
+                    <td><code>[count]l</code></td>
                     <td>カーソルを右に移動</td>
                 </tr>
+
                 <tr>
-                    <td><code>:</code></td>
-                    <td>コマンドモードに入る</td>
+                    <td><code>[count]w</code></td>
+                    <td>次の単語の先頭に移動 (word)</td>
+                    <td><code>:h word</code>で詳細を見れる。</td>
                 </tr>
                 <tr>
-                    <td><code>i</code></td>
+                    <td><code>[count]W</code></td>
+                    <td>記号を無視してスペース区切りで移動する</td>
+                    <td>Wはshift+wを表す</td>
+                </tr>
+                <tr>
+                    <td><code>[count]b</code></td>
+                    <td>前の単語の先頭に移動</td>
+                </tr>
+                <tr>
+                    <td><code>[count]B</code></td>
+                    <td>記号を無視してスペース区切りで戻る</td>
+                </tr>
+                <tr>
+                    <td><code>[count]e</code></td>
+                    <td>単語の末尾に移動</td>
+                </tr>
+                <tr>
+                    <td><code>[count]E</code></td>
+                    <td>記号を無視してスペース区切りの最後へ移動</td>
+                </tr>
+
+                <tr>
+                    <td><code>0</code></td>
+                    <td>カーソルの横座標を0列目へ移動</td>
+                    <td>数字のzeroであってアルファベットに属するoではない</td>
+                </tr>
+                <tr>
+                    <td><code>$</code></td>
+                    <td>カーソルの横座標を最終列目へ移動</td>
+                </tr>
+
+                <tr>
+                    <td><code>^</code></td>
+                    <td>行の最初の空白以外の文字に移動</td>
+                    <td>pythonのようなインデントされたコードでは <code>0</code> よりもこちらを多用する</td>
+                </tr>
+                <tr>
+                    <td><code>[count]+</code></td>
+                    <td>次の行の行頭（最初の非空白文字）へ移動</td>
+                    <td><code>j</code> 押して <code>^</code> 押すのと同じ。Enterキーでも同じ挙動をする。</td>
+                </tr>
+                <tr>
+                    <td><code>[count]-</code></td>
+                    <td>前の行の行頭（最初の非空白文字）へ移動</td>
+                    <td><code>k</code> 押して <code>^</code> 押すのと同じ。</td>
+                </tr>
+
+                <tr>
+                    <td><code>%</code></td>
+                    <td>対応する括弧に移動 <code>()</code> <code>[]</code> <code>{}</code></td>
+                    <td>ちなみに、全く役立たないが<code>60%</code>と入力するとそのファイルの60%の行目に移動する。
+                    </td>
+                </tr>
+
+                <tr>
+                    <th style="background-color: lightgray" colspan="3">Jump Motions</th>
+                </tr>
+                <tr>
+                    <td><code>gg</code></td>
+                    <td>カーソルの縦座標をファイルの一行目へ移動</td>
+                    <td><code>10gg</code>と打てば10行目に移動する。<code>:10</code>でも同じ。</td>
+                </tr>
+                <tr>
+                    <td><code>G</code></td>
+                    <td>カーソルの縦座標をファイルの最終行へ移動</td>
+                    <td><code>10G</code>と打てば10行目に移動する</td>
+                </tr>
+                <tr>
+                    <td><code>gd</code></td>
+                    <td>定義へ移動 (Go Definition)</td>
+                    <td>標準では「ファイル内の宣言場所」へ飛ぶだけだが、<br>
+                        プラグインを入れると「別ファイルの定義元」へ飛べるようになるのがデファクトスタンダード</td>
+                </tr>
+                <tr>
+                    <td><code>gr</code></td>
+                    <td>参照一覧を表示・移動 (Go References)</td>
+                    <td>標準機能ではない（標準の<code>gr</code>は無効または別機能）。<br>
+                        プラグインを入れた環境では「その変数が使われている場所」を一覧表示するキー<br>
+                        として定着している</td>
+                </tr>
+                <tr>
+                    <td><code>gf</code></td>
+                    <td>カーソル下のファイル名を開く (Go File)</td>
+                    <td><code>include "header.h"</code> のファイル名の上で押すと、そのファイルに飛べる。<br>
+                        パスが正しければ標準機能で動く</td>
+                </tr>
+                <tr>
+                    <td><code>[count]{</code></td>
+                    <td>パラグラフの始まりの一行外側に移動する</td>
+                    <td>パラグラフ(paragraph)について知りたいなら<code>:h paragraph</code></td>
+                </tr>
+                <tr>
+                    <td><code>[count]}</code></td>
+                    <td>パラグラフの終わり一行外側に移動する</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]^o</code></td>
+                    <td>ひとつ前のジャンプ位置に戻る</td>
+                    <td>大きな動きに対して有効。h,j,k,lのような動きでは記録されない</td>
+                </tr>
+                <tr>
+                    <td><code>[count]^iまたは&lt;Tab&gt;</code></td>
+                    <td>ひとつ後のジャンプ位置へ移動する</td>
+                    <td>^o, ^iについて詳しく知りたいなら<code>:h jump-motions</code>とタイプしてみよう。</td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]g;</code></td>
+                    <td>最後に<strong>編集した</strong>場所へ移動</td>
+                    <td><code>^o</code> (ジャンプリスト) と違い、「編集」した場所だけを辿れる。超便利。</td>
+                </tr>
+                <tr>
+                    <td><code>[count]g,</code></td>
+                    <td>編集箇所の履歴を順方向に辿る</td>
+                </tr>
+
+                <tr>
+                    <th style="background-color: lightgray" colspan="3">Search and Jump</th>
+                </tr>
+                <tr>
+                    <td><code>[count]f{char}</code></td>
+                    <td> カーソル位置をカーソル位置から右側以降で見つかった最初の{char}に移動する</td>
+                    <td>{char}とは文字列を意味し、[]と違いoptionalではない。<br>
+                        <code>ff</code> と打てばカーソルより右の最初の'f'へカーソル位置が動く。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[count]F{char}</code></td>
+                    <td>カーソル位置をカーソル位置から左側以降で見つかった最初の{char}に移動する</td>
+                    <td><code>[count]Ff</code> と打てばカーソルより左の最初の'f'へカーソル位置が動く。</td>
+                </tr>
+                <tr>
+                    <td><code>[count]t{char}</code></td>
+                    <td>カーソル位置をカーソル位置から右側以降で見つかった最初の{char}の左側に移動する</td>
+                </tr>
+                <tr>
+                    <td><code>[count]T{char}</code></td>
+                    <td>カーソル位置をカーソル位置から左側以降で見つかった最初の{char}の右側に移動する</td>
+                </tr>
+                <tr>
+                    <td><code>[count];</code></td>
+                    <td>直前の <code>f, t, F, T</code> の検索を繰り返す</td>
+                </tr>
+                <tr>
+                    <td><code>[count],</code></td>
+                    <td>直前の <code>f, t, F, T</code> の検索を<strong>逆方向に</strong>繰り返す</td>
+                </tr>
+
+                <tr>
+                    <td><code>/{pattern}</code></td>
+                    <td>文字列 {pattern} を前方検索する</td>
+                    <td>検索後に <code>Enter</code> で確定。正規表現も使える。<br>
+                        <code>/Make each program do one thing well.</code>と打てば<br>
+                        Make each program do one thing well.という文字列へ移動する。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>?{pattern}</code></td>
+                    <td>文字列 {pattern} を後方検索する</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>[count]*</code></td>
+                    <td>カーソル下の単語を前方検索する</td>
+                    <td><strong>超便利。</strong>変数名の上で押せば、次に出てくる同じ変数の場所に飛べる。</td>
+                </tr>
+                <tr>
+                    <td><code>[count]#</code></td>
+                    <td>カーソル下の単語を後方検索する</td>
+                    <td><code>*</code> の逆方向</td>
+                </tr>
+                <tr>
+                    <td><code>[count]n</code></td>
+                    <td>次の検索結果へ移動 (next)</td>
+                    <td><code>/</code> の後は下方向、<code>?</code> の後は上方向に進む</td>
+                </tr>
+                <tr>
+                    <td><code>[count]N</code></td>
+                    <td>前の検索結果へ移動</td>
+                    <td><code>n</code> の逆方向</td>
+                </tr>
+
+                <tr>
+                    <th style="background-color: lightgray" colspan="3">Edit</th>
+                </tr>
+
+                <tr>
+                    <td><code>["x][count]y{motion}</code></td>
+                    <td>今のカーソル位置の行をヤンク<br>
+                        最も慣れ親しんだいい方で言うならコピー
+                    </td>
+                    <td> <code>2yj</code>または<code>y2j</code>と打てばカーソル行含む下二行がヤンクされる<br>
+                        <code>y2}</code>と打てば下にある2個のパラグラフがヤンクされる。<br>
+                        <code>["x]</code>はレジスタだがこの余白は説明を書くには狭すぎる。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]yy</code></td>
+                    <td>今のカーソル位置の行を削除</td>
+                </tr>
+
+                <tr>
+                    <td><code>["x]y[count]i{object}</code></td>
+                    <td>{object}に対応する中の文字列をヤンクするする</td>
+                    <td>初めに言っておくと、「初級者であるならここにいるべきではない」<br>
+                        {object}これは:help内には書かれていないものだが、<br>
+                        説明のため導入する。<br>
+                        {object}には、"", (), [], {}, &lt;&gt;などの囲いつまり、<br>
+                        ペアとなるものが該当し、b, B, tも使用できる。<br>
+                        また、テキストオブジェクトw, W, pも使用できる。 <br>
+                        さらに、“余白”を拡張するなら<br>
+                        ファイル内に<code>exit(int(0))</code>があり、
+                        yi(と入力すると<code>int(0)</code>がヤンクされ<br>
+                        y2i(と入力すると<code>0</code>がヤンクされる。<br>
+                        お察しの通り、'second' innerである。<br>
+                        y2i(はGoogle ColabやVSCodeの拡張機能などでは挙動が違う<br>
+                        <code>:help object-select</code>と打つと更なる詳細を得る。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>["x]y[count]a{object}</code></td>
+                    <td>{object}を含む{object}に対応するものをヤンクする</td>
+                </tr>
+
+                <tr>
+                    <td><code>["x][count]x</code></td>
+                    <td>今のカーソル位置の文字を削除</td>
+                    <td>いろいろ意味不明な記号が出てきたが臆することは無い。<br>
+                        <code>3x</code>と押せば三文字消える。<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]X</code></td>
+                    <td>今のカーソル位置の前の文字を削除</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]d{motion}</code></td>
+                    <td>今のカーソル位置の行を削除 </td>
+                    <td> <code>2dj</code>または<code>d2j</code>と打てばカーソル行含む下二行が消える。<br>
+                        <code>2d}</code>と打てば下にある2個のパラグラフが消える。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]D</code></td>
+                    <td>今のカーソル位置より文末までを削除</td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]dd</code></td>
+                    <td>今のカーソル位置の行を削除</td>
+                </tr>
+                <tr>
+                    <td><code>["x]d[count]i{object}</code></td>
+                    <td>{object}に対応する中の文字列を削除する</td>
+                </tr>
+                <tr>
+                    <td><code>["x]d[count]a{object}</code></td>
+                    <td>{object}を含む{object}に対応するものを削除する</td>
+                </tr>
+
+                <tr>
+                    <td><code>["x][count]p</code></td>
+                    <td>今のカーソル位置の行から下にペースト </td>
+                    <td> レジスタ..余白（以下略） </td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]P</code></td>
+                    <td>今のカーソル位置の行から上にペースト </td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]u</code></td>
+                    <td>Undo</td>
+                </tr>
+                <tr>
+                    <td><code>[count]^r</code></td>
+                    <td>Redo</td>
+                    <td>^rはctrl+rを示す。</td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]&gt;</code></td>
+                    <td>右へインデント</td>
+                </tr>
+                <tr>
+                    <td><code>[count]&lt;</code></td>
+                    <td>左へインデント</td>
+                </tr>
+
+
+                <tr>
+                    <th style="background-color: lightgray" colspan="3">Window Fix</th>
+                </tr>
+                <tr>
+                    <td><code>H</code> / <code>M</code> / <code>L</code></td>
+                    <td>今見えてる画面内の 最上部(High) / 中央(Middle) / 最下部(Low) に移動</td>
+                    <td>しばしば、プラグインによって上書きされている</td>
+                </tr>
+                <tr>
+                    <td><code>zz</code></td>
+                    <td>カーソル行を画面中央へ</td>
+                </tr>
+                <tr>
+                    <td><code>zt</code></td>
+                    <td>カーソル行が<strong>画面の一番上</strong>に来るようにスクロール (Top)</td>
+                </tr>
+                <tr>
+                    <td><code>zb</code></td>
+                    <td>カーソル行が<strong>画面の一番下</strong>に来るようにスクロール (Bottom)</td>
+                </tr>
+                <tr>
+                    <td><code>^u</code></td>
+                    <td>半画面分、上へスクロール (Up)</td>
+                    <td><code>^b</code> (Back / 1画面戻る) よりも文脈を見失いにくいので好まれる傾向がある</td>
+                </tr>
+                <tr>
+                    <td><code>^d</code></td>
+                    <td>半画面分、下へスクロール (Down)</td>
+                    <td><code>^f</code> (Forward / 1画面進む) よりも好まれる</td>
+                </tr>
+
+                <tr>
+                    <th style="background-color: lightgray" colspan="3">Mark-motions</th>
+                </tr>
+                <tr>
+                    <td><code>m{a-z}</code></td>
+                    <td>現在のカーソル位置をマーク {a-z} に記録する</td>
+                    <td><code>ma</code> と打てば、現在地が 'a' に登録される</td>
+                </tr>
+                <tr>
+                    <td><code>'{a-z}</code></td>
+                    <td>マーク {a-z} をつけた行の行頭へ移動する</td>
+                    <td><code>'a</code> でマーク a の行へ戻る（シングルクォート）</td>
+                </tr>
+                <tr>
+                    <td><code>`{a-z}</code></td>
+                    <td>マーク {a-z} をつけた<strong>正確な位置（列含む）</strong>へ移動する</td>
+                    <td>バッククォート。行頭ではなくピンポイントに戻りたい時に使う</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-bottom: 0; line-height: 1.2;">インサートモード</h3>
+        <p style="margin-top: 0; line-height: 1.5;">
+            かつて、主張してはならない学説が存在した。それを一度主張してしまえば異端と言われ魔女と言われ―<br>
+            そんな中、生き残った男がいた―その名はガリレオ・ガリレイ。<br>
+            彼は、一般庶民も読めるイタリア語で挑発的な本を出版し、 聖書の解釈にまで口を出した。<br>
+            その結果、1616年に地動説は正式に「異端」とされ、裁判にかけられてしまう―<br>
+            しかしあなたが知る通り、現代では「地球は回っている」と習うだろう。そう、世界は"変わった"のだ。<br>
+            ....しばしば、Vimmerにとって"世界を編集"するためにはインサートモードである必要がある。<br>
+            追記だが、ここで紹介されるコマンドはインサートモードで使えるコマンドではなく、<br>
+            <strong>インサートモードへ移項するためのコマンド</strong>でありノーマルモードからの遷移である。
+        </p>
+
+        <table>
+            <thead>
+                <tr style="background-color: limegreen;">
+                    <th>コマンド</th>
+                    <th>説明</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><code>[count]i</code></td>
                     <td>今のカーソル位置でインサートモード</td>
                 </tr>
                 <tr>
-                    <td><code>a</code></td>
+                    <td><code>[count]I</code></td>
+                    <td>今のカーソル位置の文字列の行頭からインサートモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>[count]a</code></td>
                     <td>今のカーソル位置の一つ右からインサートモード</td>
                 </tr>
                 <tr>
-                    <td><code>o</code></td>
+                    <td><code>[count]A</code></td>
+                    <td>今のカーソル位置の文字列の行末からインサートモードに入る</td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]o</code></td>
                     <td>今のカーソル位置の下に新しい行を作ってインサートモード</td>
+                    <td><code>3o</code>を入力後,stringと入力し,<code>&lt;ESC&gt;</code>を押すと下に三行現れる。<br>
+                        しかし、奇妙なことに<code>&lt;Ctrl-c&gt;</code>を押すと<br>
+                        三行追加はキャンセルされ既に表れている文字列のみが残る。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[count]O</code></td>
+                    <td>今のカーソル位置の上に新しい行を作ってインサートモード</td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]r{char}</code></td>
+                    <td>現在のカーソル位置の文字を{char}で置き換える</td>
+                    <td>sコマンドが存在するがrで代用できる</td>
+                </tr>
+                <tr>
+                    <td><code>[count]R</code></td>
+                    <td>現在のカーソル位置からReplace Modeへ入る</td>
+                    <td>何を隠そう、Replace modeの登場だがモード名は覚えなくてよく、<br>
+                        <code>RGNU's Not Unix!</code>と打てば現在のカーソル位置から右にある文字列が<br>
+                        GNU's Not Unix!に置き換わる。
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><code>["x][count]c{motion}</code></td>
+                    <td>現在のカーソル位置から{motion}で移動した範囲を消してインサートモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]cc</code></td>
+                    <td>現在のカーソル行を消してインサートモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>["x][count]C</code></td>
+                    <td>現在のカーソル位置から右側を消してインサートモードに入る</td>
+                    <td><code>2C</code>と打てばカーソル行含む下に二行が消えてインサートモードになる</td>
+                </tr>
+                <tr>
+                    <td><code>["x]c[count]i{object}</code></td>
+                    <td>{object}に対応する中の文字列を削除し、インサートモードに入る</td>
+                </tr>
+                <tr>
+                    <td><code>["x]c[count]a{object}</code></td>
+                    <td>{object}を含む{object}に対応するものを削除し、インサートモードに入る</td>
+                </tr>
+
+                <tr>
+                    <td><code>gi</code></td>
+                    <td>最後にインサートモードで編集した位置でインサートモードに入る</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-bottom: 0; line-height: 1.2;">ヴィジュアルモード</h3>
+        <p style="margin-top: 0; line-height: 1.5;">
+            ピエト・モンドリアン( 1872年3月7日 - 1944年2月1日)は、19世紀末から20世紀のオランダ出身の画家。<br>
+            彼のキャリアの終盤には、皆も一度は見たことがある実に秩序だった絵画が描かれている。<br>
+            そう、あのプログラミング言語Pietが影響を受けたであろう絵画だ。<br>
+            彼にとって絵画は平面でなければならず、垂直と水平が秩序であるのであろう。<br>
+            また、これから紹介するコマンドに対してVisual-Modeは水平線と垂直線で囲まれた"秩序"を提供する。
+        </p>
+
+        <table>
+            <thead>
+                <tr style="background-color: orange;">
+                    <th>コマンド</th>
+                    <th>説明</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>[count]v</code></td>
+                    <td>文字単位ビジュアルモードに入る</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>[count]V</code></td>
+                    <td>行単位ビジュアルモードに入る</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>[count]^v</code></td>
+                    <td>矩形選択モードに入る</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>gv</code></td>
+                    <td>直前の選択範囲を再選択</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>v[count]i{object}</code></td>
+                    <td>{object}に対応する中の文字列を選択する</td>
+                </tr>
+                <tr>
+                    <td><code>v[count]a{object}</code></td>
+                    <td>{object}を含む{object}に対応するものを選択</td>
+                </tr>
+                <tr>
+                    <th style="background-color: lightgray;" colspan="3">Locomotions</th>
+                </tr>
+                <tr>
+                    <td><code>o</code></td>
+                    <td>ヴィジュアルモードで選択されている範囲を壊すことなくカーソル位置を上または下に移動させる</td>
                 </tr>
                 <tr>
                     <td><code>O</code></td>
-                    <td>今のカーソル位置の上に新しい行を作ってインサートモード</td>
+                    <td>矩形選択で選択されている範囲を壊すことなくカーソル位置を左または右に移動させる</td>
                 </tr>
+
+                <tr>
+                    <th style="background-color: lightgray;" colspan="3">Edit</th>
+                </tr>
+                <tr>
+                    <td><code>y</code></td>
+                    <td>ヴィジュアルモードで選択された範囲をヤンク。実行後はノーマルモードに戻る</td>
+                </tr>
+
                 <tr>
                     <td><code>x</code></td>
-                    <td>今のカーソル位置の文字を削除</td>
+                    <td>ヴィジュアルモードで選択された範囲を削除</td>
                 </tr>
                 <tr>
-                    <td><code>dd</code></td>
-                    <td>今のカーソル位置の行を削除　2行以上の場合は"数字dd"で数字分行を削除</td>
+                    <td><code>d</code></td>
+                    <td>ヴィジュアルモードで選択された範囲を削除</td>
                 </tr>
+
+                <tr>
+                    <td><code>["x][count]p</code></td>
+                    <td>ヴィジュアルモードで選択された範囲を貼り付けた文字で置き換える</td>
+                </tr>
+
+                <tr>
+                    <td><code>c</code></td>
+                    <td>ヴィジュアルモードで選択された範囲を削除し、そのままインサートモードへ移行</td>
+                </tr>
+                <tr>
+                    <td><code>r</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の文字を、直後に入力した1文字で全て置き換える</td>
+                </tr>
+
+                <tr>
+                    <td><code>I</code></td>
+                    <td>矩形選択された範囲の行頭でインサートモードに入る</td>
+                    <td>適当な文字列を入力した後&lt;ESC&gt;を押すと素晴らしい発見を得るだろう</td>
+                </tr>
+                <tr>
+                    <td><code>A</code></td>
+                    <td>矩形選択された範囲の行末でインサートモードに入る</td>
+                </tr>
+
                 <tr>
                     <td><code>u</code></td>
-                    <td>取り消し</td>
+                    <td>ヴィジュアルモードで選択された範囲のアルファベットを小文字にする</td>
+                </tr>
+                <tr>
+                    <td><code>U</code></td>
+                    <td>ヴィジュアルモードで選択された範囲のアルファベットを大文字にする</td>
+                </tr>
+                <tr>
+                    <td><code>~</code></td>
+                    <td>ヴィジュアルモードで選択された範囲のアルファベットの大文字小文字を反転する</td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]&gt;</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の行を右へインデント</td>
+                </tr>
+                <tr>
+                    <td><code>[count]&lt;</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の行を左へインデント</td>
+                </tr>
+
+                <tr>
+                    <td><code>J</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の行を一行に結合する</td>
+                    <td>このコマンドはノーマルモードでも使用できる</td>
+                </tr>
+
+                <tr>
+                    <td><code>:</code></td>
+                    <td>文字列&lt;',&gt;'をコマンドラインに書き込んだ状態でコマンドモードに入る。</td>
+                    <td>
+                        ここまでの時点ではまだコマンドラインモードについて解説していないが、<br>
+                        &lt;',&gt;'はヴィジュアルモードで選択された範囲を示す
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h3 style="margin-bottom: 0; line-height: 1.2;">コマンドラインモード</h3>
+        <p style="margin-top: 0; line-height: 1.5;">
+            第一次世界大戦後の混乱に乗じて民主的な選挙で台頭したヒトラー―<br>
+            その後、授権法によって議会から立法権を奪い、大統領の権限も統合して「総統」としての絶対的な独裁体制を確立します。<br>
+            この国家の歴史において、もっとも恐ろしいのは「外部の敵」ではなく、 自ら作り上げた「命令の仕組み」が自分自身を縛り、処罰し始めることです。<br>
+            これはVimのコマンドラインモードで私たちが犯すミスと驚くほど似ています。
+        </p>
+
+        <table>
+            <thead>
+                <tr style="background-color: mediumpurple;">
+                    <th>コマンド</th>
+                    <th>説明</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>:w</code></td>
+                    <td>ファイルを保存する</td>
+                </tr>
+                <tr>
+                    <td><code>:q</code></td>
+                    <td>ウィンドウを閉じる</td>
+                </tr>
+                <tr>
+                    <td><code>:q!</code></td>
+                    <td>保存せずに強制終了する</td>
+                </tr>
+
+                <tr>
+                    <td><code>:wq</code></td>
+                    <td>保存して終了する</td>
+                </tr>
+                <tr>
+                    <td><code>:x</code></td>
+                    <td>保存して終了する</td>
+                    <td>:wq と似ているが、変更がない時は書き込まない</td>
+                </tr>
+
+                <tr>
+                    <td><code>:e [pathtofile]</code></td>
+                    <td>[pathtofile]のファイルを開く</td>
+                    <td>:e vim.textと打てば現在のディレクトリにあるvim.textを開く</td>
+                </tr>
+
+                <tr>
+                    <td><code>:s/[old]/[new]/g</code></td>
+                    <td>現在の行にある[old]という文字列を[new]という文字列で置換する</td>
+                </tr>
+                <tr>
+                    <td><code>:%s/[old]/[new]/g</code></td>
+                    <td>ファイル全体の[old]という文字列を[new]という文字列で置換する</td>
+                    <td>%はバッファを指す</td>
+                </tr>
+                <tr>
+                    <td><code>:&lt;',&gt;'%s/[old]/[new]/g</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の[old]という文字列を[new]という文字列で置換する</td>
+                </tr>
+
+                <tr>
+                    <td><code>:/pattern</code></td>
+                    <td>下方向に向かって文字列を検索する
+                </tr>
+                <tr>
+                    <td><code>:?pattern</code></td>
+                    <td>上方向に向かって文字列を検索する
+                </tr>
+
+                <tr>
+                    <td><code>:set number</code></td>
+                    <td>行番号を表示する</td>
+                    <td>:set nu と略せる</td>
+                </tr>
+
+                <tr>
+                    <td><code>:sp [file]</code></td>
+                    <td>ウィンドウを横に分割して開く</td>
+                    <td>split の略。画面が上下に分かれる</td>
+                </tr>
+                <tr>
+                    <td><code>:vs [file]</code></td>
+                    <td>ウィンドウを縦に分割して開く</td>
+                    <td>vsplit の略。画面が左右に分かれる</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd w</code></td>
+                    <td>次のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後wを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd h</code></td>
+                    <td>左のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後hを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd j</code></td>
+                    <td>下のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後jを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd k</code></td>
+                    <td>上のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後kを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd l</code></td>
+                    <td>右のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後lを押すのと同じ</td>
+                </tr>
+
+                <tr>
+                    <td><code>:tabnew [file]</code></td>
+                    <td>新しいタブでファイルを開く</td>
+                </tr>
+                <tr>
+                    <td><code>:tabnext</code></td>
+                    <td>次のタブへ移動,</td>
+                    <td>gt と同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:tabprevious</code> </td>
+                    <td>前のタブへ移動</td>
+                    <td>gT と同じ</td>
+                </tr>
+
+                <tr>
+                    <td><code>:! [command]</code></td>
+                    <td>外部コマンドを実行する</td>
+                    <td><code>:!ls</code>でカレントディレクトリを表示</td>
+                </tr>
+
+                <tr>
+                    <td><code>:r [file]</code></td>
+                    <td>指定したファイルの内容を差し込む</td>
+                    <td>現在のカーソル行の下に挿入される</td>
+                </tr>
+                <tr>
+                    <td><code>:r ! [cmd]</code></td>
+                    <td>外部コマンドの実行結果を差し込む</td>
+                    <td><code>:r !date</code>で現在時刻を挿入</td>
+                </tr>
+                <tr>
+                    <td><code>:cd [path]</code></td>
+                    <td>カレントディレクトリを変更する</td>
+                    <td>ファイル保存時のパス指定に便利</td>
+                </tr>
+                <tr>
+                    <td><code>:pwd</code></td>
+                    <td>現在の作業ディレクトリを表示する</td>
+                </tr>
+
+                <tr>
+                    <td><code>:history</code></td>
+                    <td>コマンドの履歴一覧を表示する</td>
+                </tr>
+                <tr>
+                    <td><code>:noh</code></td>
+                    <td>検索のハイライトを消す</td>
+                </tr>
+
+                <tr>
+                    <td><code>:help [kw]</code></td>
+                    <td>ヘルプを表示する</td>
                 </tr>
             </tbody>
         </table>
     </section>
+
 </body>
+
+<footer>
+    <hr>
+    <p>© 2026 This HTML was written by <strong><a href="https://github.com/Tomarun029831">Tomarun029831</a></strong>.
+        All rights reserved.</p>
+    <p>If you find any mistakes, please create a issue at <a href="https://github.com/sg-TERA/22i-portal">
+            22i-portal</a>
+    </p>
+</footer>
 
 </html>
