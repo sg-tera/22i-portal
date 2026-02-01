@@ -700,7 +700,7 @@
 
                 <tr>
                     <td><code>:</code></td>
-                    <td>文字列&lt;',&gt;'をコマンドライン書き込んだ状態でコマンドモードに入る。</td>
+                    <td>文字列&lt;',&gt;'をコマンドラインに書き込んだ状態でコマンドモードに入る。</td>
                     <td>
                         ここまでの時点ではまだコマンドラインモードについて解説していないが、<br>
                         &lt;',&gt;'はヴィジュアルモードで選択された範囲を示す
@@ -712,6 +712,10 @@
 
         <h3 style="margin-bottom: 0; line-height: 1.2;">コマンドラインモード</h3>
         <p style="margin-top: 0; line-height: 1.5;">
+            第一次世界大戦後の混乱に乗じて民主的な選挙で台頭したヒトラー―<br>
+            その後、授権法によって議会から立法権を奪い、大統領の権限も統合して「総統」としての絶対的な独裁体制を確立します。<br>
+            この国家の歴史において、もっとも恐ろしいのは「外部の敵」ではなく、 自ら作り上げた「命令の仕組み」が自分自身を縛り、処罰し始めることです。<br>
+            これはVimのコマンドラインモードで私たちが犯すミスと驚くほど似ています。
         </p>
 
         <table>
@@ -723,6 +727,154 @@
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td><code>:w</code></td>
+                    <td>ファイルを保存する</td>
+                </tr>
+                <tr>
+                    <td><code>:q</code></td>
+                    <td>ウィンドウを閉じる</td>
+                </tr>
+                <tr>
+                    <td><code>:q!</code></td>
+                    <td>保存せずに強制終了する</td>
+                </tr>
+
+                <tr>
+                    <td><code>:wq</code></td>
+                    <td>保存して終了する</td>
+                </tr>
+                <tr>
+                    <td><code>:x</code></td>
+                    <td>保存して終了する</td>
+                    <td>:wq と似ているが、変更がない時は書き込まない</td>
+                </tr>
+
+                <tr>
+                    <td><code>:e [pathtofile]</code></td>
+                    <td>[pathtofile]のファイルを開く</td>
+                    <td>:e vim.textと打てば現在のディレクトリにあるvim.textを開く</td>
+                </tr>
+
+                <tr>
+                    <td><code>:s/[old]/[new]/g</code></td>
+                    <td>現在の行にある[old]という文字列を[new]という文字列で置換する</td>
+                </tr>
+                <tr>
+                    <td><code>:%s/[old]/[new]/g</code></td>
+                    <td>ファイル全体の[old]という文字列を[new]という文字列で置換する</td>
+                    <td>%はバッファを指す</td>
+                </tr>
+                <tr>
+                    <td><code>:&lt;',&gt;'%s/[old]/[new]/g</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の[old]という文字列を[new]という文字列で置換する</td>
+                </tr>
+
+                <tr>
+                    <td><code>:/pattern</code></td>
+                    <td>下方向に向かって文字列を検索する
+                </tr>
+                <tr>
+                    <td><code>:?pattern</code></td>
+                    <td>上方向に向かって文字列を検索する
+                </tr>
+
+                <tr>
+                    <td><code>:set number</code></td>
+                    <td>行番号を表示する</td>
+                    <td>:set nu と略せる</td>
+                </tr>
+
+                <tr>
+                    <td><code>:sp [file]</code></td>
+                    <td>ウィンドウを横に分割して開く</td>
+                    <td>split の略。画面が上下に分かれる</td>
+                </tr>
+                <tr>
+                    <td><code>:vs [file]</code></td>
+                    <td>ウィンドウを縦に分割して開く</td>
+                    <td>vsplit の略。画面が左右に分かれる</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd w</code></td>
+                    <td>次のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後wを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd h</code></td>
+                    <td>左のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後hを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd j</code></td>
+                    <td>下のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後jを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd k</code></td>
+                    <td>上のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後kを押すのと同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:wincmd l</code></td>
+                    <td>右のウィンドウへ移動</td>
+                    <td>&lt;Ctrl + w&gt;を押した後lを押すのと同じ</td>
+                </tr>
+
+                <tr>
+                    <td><code>:tabnew [file]</code></td>
+                    <td>新しいタブでファイルを開く</td>
+                </tr>
+                <tr>
+                    <td><code>:tabnext</code></td>
+                    <td>次のタブへ移動,</td>
+                    <td>gt と同じ</td>
+                </tr>
+                <tr>
+                    <td><code>:tabprevious</code> </td>
+                    <td>前のタブへ移動</td>
+                    <td>gT と同じ</td>
+                </tr>
+
+                <tr>
+                    <td><code>:! [command]</code></td>
+                    <td>外部コマンドを実行する</td>
+                    <td><code>:!ls</code>でカレントディレクトリを表示</td>
+                </tr>
+
+                <tr>
+                    <td><code>:r [file]</code></td>
+                    <td>指定したファイルの内容を差し込む</td>
+                    <td>現在のカーソル行の下に挿入される</td>
+                </tr>
+                <tr>
+                    <td><code>:r ! [cmd]</code></td>
+                    <td>外部コマンドの実行結果を差し込む</td>
+                    <td><code>:r !date</code>で現在時刻を挿入</td>
+                </tr>
+                <tr>
+                    <td><code>:cd [path]</code></td>
+                    <td>カレントディレクトリを変更する</td>
+                    <td>ファイル保存時のパス指定に便利</td>
+                </tr>
+                <tr>
+                    <td><code>:pwd</code></td>
+                    <td>現在の作業ディレクトリを表示する</td>
+                </tr>
+
+                <tr>
+                    <td><code>:history</code></td>
+                    <td>コマンドの履歴一覧を表示する</td>
+                </tr>
+                <tr>
+                    <td><code>:noh</code></td>
+                    <td>検索のハイライトを消す</td>
+                </tr>
+
+                <tr>
+                    <td><code>:help [kw]</code></td>
+                    <td>ヘルプを表示する</td>
+                </tr>
             </tbody>
         </table>
 
