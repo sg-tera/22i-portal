@@ -98,7 +98,6 @@
                 <tr>
                     <th style="background-color: lightgray" colspan="3">Locomotions</th>
                 </tr>
-                </thead>
                 <tr>
                     <td><code>Esc</code></td>
                     <td>ノーマルモードに戻る</td>
@@ -416,6 +415,16 @@
                 </tr>
 
                 <tr>
+                    <td><code>[count]&gt;</code></td>
+                    <td>右へインデント</td>
+                </tr>
+                <tr>
+                    <td><code>[count]&lt;</code></td>
+                    <td>左へインデント</td>
+                </tr>
+
+
+                <tr>
                     <th style="background-color: lightgray" colspan="3">Window Fix</th>
                 </tr>
                 <tr>
@@ -559,6 +568,145 @@
                     <td><code>gi</code></td>
                     <td>最後にインサートモードで編集した位置でインサートモードに入る</td>
                 </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-bottom: 0; line-height: 1.2;">ヴィジュアルモード</h3>
+        <p style="margin-top: 0; line-height: 1.5;">
+            ピエト・モンドリアン( 1872年3月7日 - 1944年2月1日)は、19世紀末から20世紀のオランダ出身の画家。<br>
+            彼のキャリアの終盤には、皆も一度は見たことがある実に秩序だった絵画が描かれている。<br>
+            そう、あのプログラミング言語Pietが影響を受けたであろう絵画だ。<br>
+            彼にとって絵画は平面でなければならず、垂直と水平が秩序であるのであろう。<br>
+            また、これから紹介するコマンドに対してVisual-Modeは水平線と垂直線で囲まれた"秩序"を提供する。
+        </p>
+
+        <table>
+            <thead>
+                <tr style="background-color: orange;">
+                    <th>コマンド</th>
+                    <th>説明</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>[count]v</code></td>
+                    <td>文字単位ビジュアルモードに入る</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>[count]V</code></td>
+                    <td>行単位ビジュアルモードに入る</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>[count]^v</code></td>
+                    <td>矩形選択モードに入る</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>gv</code></td>
+                    <td>直前の選択範囲を再選択</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>v[count]i{object}</code></td>
+                    <td>{object}に対応する中の文字列を選択する</td>
+                </tr>
+                <tr>
+                    <td><code>v[count]a{object}</code></td>
+                    <td>{object}を含む{object}に対応するものを選択</td>
+                </tr>
+                <tr>
+                    <th style="background-color: lightgray;" colspan="3">Locomotions</th>
+                </tr>
+                <tr>
+                    <td><code>o</code></td>
+                    <td>ヴィジュアルモードで選択されている範囲を壊すことなくカーソル位置を上または下に移動させる</td>
+                </tr>
+                <tr>
+                    <td><code>O</code></td>
+                    <td>矩形選択で選択されている範囲を壊すことなくカーソル位置を左または右に移動させる</td>
+                </tr>
+
+                <tr>
+                    <th style="background-color: lightgray;" colspan="3">Edit</th>
+                </tr>
+                <tr>
+                    <td><code>y</code></td>
+                    <td>ヴィジュアルモードで選択された範囲をヤンク。実行後はノーマルモードに戻る</td>
+                </tr>
+
+                <tr>
+                    <td><code>x</code></td>
+                    <td>ヴィジュアルモードで選択された範囲を削除</td>
+                </tr>
+                <tr>
+                    <td><code>d</code></td>
+                    <td>ヴィジュアルモードで選択された範囲を削除</td>
+                </tr>
+
+                <tr>
+                    <td><code>["x][count]p</code></td>
+                    <td>ヴィジュアルモードで選択された範囲を貼り付けた文字で置き換える</td>
+                </tr>
+
+                <tr>
+                    <td><code>c</code></td>
+                    <td>ヴィジュアルモードで選択された範囲を削除し、そのままインサートモードへ移行</td>
+                </tr>
+                <tr>
+                    <td><code>r</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の文字を、直後に入力した1文字で全て置き換える</td>
+                </tr>
+
+                <tr>
+                    <td><code>I</code></td>
+                    <td>矩形選択された範囲の行頭でインサートモードに入る</td>
+                    <td>適当な文字列を入力した後&lt;ESC&gt;を押すと素晴らしい発見を得るだろう</td>
+                </tr>
+                <tr>
+                    <td><code>A</code></td>
+                    <td>矩形選択された範囲の行末でインサートモードに入る</td>
+                </tr>
+
+                <tr>
+                    <td><code>u</code></td>
+                    <td>ヴィジュアルモードで選択された範囲のアルファベットを小文字にする</td>
+                </tr>
+                <tr>
+                    <td><code>U</code></td>
+                    <td>ヴィジュアルモードで選択された範囲のアルファベットを大文字にする</td>
+                </tr>
+                <tr>
+                    <td><code>~</code></td>
+                    <td>ヴィジュアルモードで選択された範囲のアルファベットの大文字小文字を反転する</td>
+                </tr>
+
+                <tr>
+                    <td><code>[count]&gt;</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の行を右へインデント</td>
+                </tr>
+                <tr>
+                    <td><code>[count]&lt;</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の行を左へインデント</td>
+                </tr>
+
+                <tr>
+                    <td><code>J</code></td>
+                    <td>ヴィジュアルモードで選択された範囲の行を一行に結合する</td>
+                    <td>このコマンドはノーマルモードでも使用できる</td>
+                </tr>
+
+                <tr>
+                    <td><code>:</code></td>
+                    <td>文字列&lt;',&gt;'をコマンドライン書き込んだ状態でコマンドモードに入る。</td>
+                    <td>
+                        ここまでの時点ではまだコマンドモードについて解説していないが、<br>
+                        &lt;',&gt;'はヴィジュアルモードで選択された範囲を示す
+                    </td>
+                </tr>
+
             </tbody>
         </table>
     </section>
