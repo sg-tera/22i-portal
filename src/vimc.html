@@ -210,7 +210,8 @@
                     <td><code>gr</code></td>
                     <td>参照一覧を表示・移動 (Go References)</td>
                     <td>標準機能ではない（標準の<code>gr</code>は無効または別機能）。<br>
-                        環境では「その変数が使われている場所」を一覧表示するキーとして定着している</td>
+                        プラグインを入れた環境では「その変数が使われている場所」を一覧表示するキー<br>
+                        として定着している</td>
                 </tr>
                 <tr>
                     <td><code>gf</code></td>
@@ -287,7 +288,7 @@
                     <td>文字列 {pattern} を前方検索する</td>
                     <td>検索後に <code>Enter</code> で確定。正規表現も使える。<br>
                         <code>/Make each program do one thing well.</code>と打てば<br>
-                        Make each program do one thing well.という文字列へ移動するはずです。
+                        Make each program do one thing well.という文字列へ移動する。
                     </td>
                 </tr>
                 <tr>
@@ -326,8 +327,8 @@
                         最も慣れ親しんだいい方で言うならコピー
                     </td>
                     <td> <code>2yj</code>または<code>y2j</code>と打てばカーソル行含む下二行がヤンクされる<br>
-                        <code>2y}</code>と打てば下にある2個のパラグラフがヤンクされる。<br>
-                        レジスタと組み合わせるともっと便利だが余白（以下略）
+                        <code>y2}</code>と打てば下にある2個のパラグラフがヤンクされる。<br>
+                        <code>["x]</code>はレジスタだがこの余白は説明を書くには狭すぎる。
                     </td>
                 </tr>
                 <tr>
@@ -336,11 +337,33 @@
                 </tr>
 
                 <tr>
+                    <td><code>["x]y[count]i{object}</code></td>
+                    <td>{object}に対応する中の文字列をヤンクするする</td>
+                    <td>初めに言っておくと、「初級者であるならここにいるべきではない」<br>
+                        {object}これは:help内には書かれていないものだが、<br>
+                        説明のため導入する。<br>
+                        {object}には、"", (), [], {}, &lt;&gt;などの囲いつまり、<br>
+                        ペアとなるものが該当し、b, B, tも使用できる。<br>
+                        また、テキストオブジェクトw, W, pも使用できる。 <br>
+                        さらに、“余白”を拡張するなら<br>
+                        ファイル内に<code>exit(int(0))</code>があり、
+                        yi(と入力すると<code>int(0)</code>がヤンクされ<br>
+                        y2i(と入力すると<code>0</code>がヤンクされる。<br>
+                        お察しの通り、'second' innerである。<br>
+                        y2i(はGoogle ColabやVSCodeの拡張機能などでは挙動が違う<br>
+                        <code>:help object-select</code>と打つと更なる詳細を得る。
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>["x]y[count]a{object}</code></td>
+                    <td>{object}を含む{object}に対応するものをヤンクする</td>
+                </tr>
+
+                <tr>
                     <td><code>["x][count]x</code></td>
                     <td>今のカーソル位置の文字を削除</td>
                     <td>いろいろ意味不明な記号が出てきたが臆することは無い。<br>
                         <code>3x</code>と押せば三文字消える。<br>
-                        <code>["x]</code>はレジスタだがこの余白は説明を書くには狭すぎる。
                     </td>
                 </tr>
                 <tr>
@@ -362,6 +385,14 @@
                 <tr>
                     <td><code>["x][count]dd</code></td>
                     <td>今のカーソル位置の行を削除</td>
+                </tr>
+                <tr>
+                    <td><code>["x]d[count]i{object}</code></td>
+                    <td>{object}に対応する中の文字列を削除する</td>
+                </tr>
+                <tr>
+                    <td><code>["x]d[count]a{object}</code></td>
+                    <td>{object}を含む{object}に対応するものを削除する</td>
                 </tr>
 
                 <tr>
@@ -517,8 +548,13 @@
 
             </tbody>
         </table>
-
     </section>
+
+    <!-- TODO: take another way to add space on the bottom of this page. -->
+    <br>
+    <br>
+    <br>
+    <br>
 </body>
 
 </html>
