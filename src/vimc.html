@@ -68,7 +68,7 @@
                 <p style="color: #fff;">j&nbsp;&nbsp;&nbsp;scroll down</p>
                 <p style="color: #fff;">k&nbsp;&nbsp;&nbsp;scroll up</p>
                 <p style="color: #fff;">gg&nbsp;&nbsp;scroll to top of the page</p>
-                <p style="color: #fff;">G&nbsp;&nbsp;&nbsp;scroll to top of the page</p>
+                <p style="color: #fff;">G&nbsp;&nbsp;&nbsp;scroll to bottom of the page</p>
             </div>
         </div>
 
@@ -897,8 +897,8 @@
         const commands = {
             "j":  (b) => window.scrollBy({ top:  SCROLL_AMOUNT, behavior: b }),
             "k":  (b) => window.scrollBy({ top: -SCROLL_AMOUNT, behavior: b }),
-            "G":  (b) => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: b }),
-            "gg": ()  => window.scrollTo({ top: 0, behavior: "smooth" }),
+            "G":  (_) => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" }),
+            "gg": (_)  => window.scrollTo({ top: 0, behavior: "smooth" }),
         };
 
         let keyBuffer = "";
