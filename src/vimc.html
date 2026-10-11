@@ -218,17 +218,29 @@
                         プラグインを入れると「別ファイルの定義元」へ飛べるようになるのがデファクトスタンダード</td>
                 </tr>
                 <tr>
-                    <td><code>gr</code></td>
+                    <td><code>grn</code></td>
+                    <td>変数名の変更(Go ReName)</td>
+						<td>カーソルの下にあるシンボルを参照するすべてのものの名前を変更する<br>
+							しばしば、バッファとして開かれていないファイルでは変更が適応されない。<br>
+							<strong>(Neovim専用)</strong></td>
+                </tr>
+                <tr>
+                    <td><code>grr</code></td>
                     <td>参照一覧を表示・移動 (Go References)</td>
-                    <td>標準機能ではない（標準の<code>gr</code>は無効または別機能）。<br>
-                        プラグインを入れた環境では「その変数が使われている場所」を一覧表示するキー<br>
-                        として定着している</td>
+						<td>language-server-protocol を入れた環境では<br>
+							「その変数が使われている場所」を一覧表示するキー<br>
+							<strong>(Neovim専用)</strong></td>
                 </tr>
                 <tr>
                     <td><code>gf</code></td>
                     <td>カーソル下のファイル名を開く (Go File)</td>
                     <td><code>include "header.h"</code> のファイル名の上で押すと、そのファイルに飛べる。<br>
                         パスが正しければ標準機能で動く</td>
+                </tr>
+                <tr>
+                    <td><code>gx</code></td>
+                    <td>ファイルパス、URL、LSP "documentLink"を開く</td>
+					<td>詳しくは、:h vim.ui.open() または、:h netrw-gx</td>
                 </tr>
                 <tr>
                     <td><code>[count]{</code></td>
@@ -717,6 +729,12 @@
                         ここまでの時点ではまだコマンドラインモードについて解説していないが、<br>
                         &lt;',&gt;'はヴィジュアルモードで選択された範囲を示す
                     </td>
+                </tr>
+                <tr>
+                    <td><code>gx</code></td>
+                    <td>ファイルパス、URL、LSP "documentLink"を開く</td>
+					<td>ヴィジュアルモードで選択された範囲をシンボルとして<br>
+						ノーマルモードにおけるgxを適応する。</td>
                 </tr>
 
             </tbody>
