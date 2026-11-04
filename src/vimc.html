@@ -912,36 +912,48 @@
 	</section>
 
 	<script>
-		const SCROLL_AMOUNT = 50;
+		(() => {
+			const SCROLL_AMOUNT = 50;
+			const TIMEOUT_MS = 500;
+			let lastKey = "";
+			let lastTime = 0;
 
-		const commands = {
-			"j":  (b) => window.scrollBy({ top:  SCROLL_AMOUNT, behavior: b }),
-			"k":  (b) => window.scrollBy({ top: -SCROLL_AMOUNT, behavior: b }),
-			"G":  (_) => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" }),
-			"gg": (_)  => window.scrollTo({ top: 0, behavior: "smooth" }),
-		};
+			document.addEventListener("keydown", (e) => {
+				const target = e.target;
+				const tag = target.nodeName;
+				if(tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable) return;
 
-		let keyBuffer = "";
-		let bufferTimeout;
+				const now = e.timeStamp;
+				const key = e.key;
+				if (lastKey && now - lastTime > TIMEOUT_MS) lastKey = "";
 
-		document.addEventListener("keydown", (e) => {
-			const tag = e.target.tagName.toLowerCase();
-			if (tag === "input" || tag === "textarea" || e.target.isContentEditable) return;
-
-			const behavior = e.repeat ? "instant" : "smooth";
-
-			keyBuffer += e.key;
-			clearTimeout(bufferTimeout);
-			bufferTimeout = setTimeout(() => { keyBuffer = ""; }, 500);
-
-			const cmd = commands[keyBuffer];
-			if (cmd) {
-				cmd(behavior);
-				keyBuffer = "";
-			} else if (!Object.keys(commands).some(k => k.startsWith(keyBuffer))) {
-				keyBuffer = "";
-			}
-		});
+				// HACK: use another expression to clean lastKey. (example: lastKey="")
+				if (key === "j") {
+					window.scrollBy({ top: SCROLL_AMOUNT, behavior: e.repeat ? "instant" : "smooth" });
+					lastKey = "";
+				} else if (key === "k") {
+					window.scrollBy({ top: -SCROLL_AMOUNT, behavior: e.repeat ? "instant" : "smooth" });
+					lastKey = "";
+				} else if(key==="}"){
+					window.scrollBy({ top: window.innerHeight, behavior: e.repeat ? "instant" : "smooth" });
+					lastKey = "";
+				} else if(key==="{"){
+					window.scrollBy({ top: -window.innerHeight, behavior: e.repeat ? "instant" : "smooth" });
+					lastKey = "";
+				} else if (key === "G") {
+					window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+					lastKey = "";
+				} else if (key === "g") {
+					if (lastKey === "g") {
+						window.scrollTo({ top: 0, behavior: "smooth" });
+						lastKey = "";
+					} else {
+						lastKey = "g";
+						lastTime = now;
+					}
+				} else { lastKey = ""; }
+			}, { passive: true });
+		})();
 	</script>
 </body>
 
